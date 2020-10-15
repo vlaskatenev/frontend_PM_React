@@ -1,0 +1,13 @@
+.menu {
+  left: 0;
+  right: 5px;
+  /*top: 34px;*/
+  display: flex;
+  margin-right: -100px;
+  float: right;
+}
+
+.menu > div {
+  padding: 0px 10px 0px 0px;
+  color: #000;
+}
