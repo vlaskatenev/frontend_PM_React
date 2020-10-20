@@ -1,6 +1,6 @@
-export const initialState = label => {
+export const initialState = (label, dataValues) => {
     return {
-        labels: [],
+        labels: Array.apply(null, Array(dataValues.length)).map(() => ''),
         datasets: [
             {
                 label: label,
@@ -21,7 +21,7 @@ export const initialState = label => {
                 pointHoverBorderWidth: 2,
                 pointRadius: 1,
                 pointHitRadius: 10,
-                data: []
+                data: dataValues
             }
         ]
     }
