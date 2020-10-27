@@ -13,8 +13,13 @@ class TaskMgr extends Component {
         const data = dataFromPc()
 
         const state = {
-            detailProcessData: [...data.detailProcessData],
-            average: {...data.average},
+            detailProcessData: [...data.data],
+            average: {
+                "averageCpu": data.averageCpu,
+                "averageRam": data.averageRam,
+                "averageDisc": data.averageDisc,
+                "fullyNetworkSpeed": data.fullyNetworkSpeed,
+            },
             stateDataCpu: [],
             stateDataMemory: []
                 }
@@ -31,12 +36,17 @@ class TaskMgr extends Component {
             const stateDataCpu = _this.state.stateDataCpu
             const stateDataMemory = _this.state.stateDataMemory
             const newData = dataFromPc()
-            stateDataCpu.push(newData.average.cpu)
-            stateDataMemory.push(newData.average.memory)
+            stateDataCpu.push(newData.averageCpu)
+            stateDataMemory.push(newData.averageRam)
 
             const newState = {
-                detailProcessData: [...newData.detailProcessData],
-                average: {...newData.average},
+                detailProcessData: [...newData.data],
+                average: {
+                    "averageCpu": newData.averageCpu,
+                    "averageRam": newData.averageRam,
+                    "averageDisc": newData.averageDisc,
+                    "fullyNetworkSpeed": newData.fullyNetworkSpeed,
+                },
                 stateDataCpu,
                 stateDataMemory
             };

@@ -1,5 +1,4 @@
 import React, {Component} from "react"
-// import {dataFromPc} from "../../containers/TaskMgr/axiosDataFromPC";
 
 export class Processes extends Component {
 
@@ -7,11 +6,11 @@ export class Processes extends Component {
         return data.map((values, index) => {
             return (
             <tr key={index}>
-                <td>{values.processName}</td>
-                <td>{values.cpu}%</td>
-                <td>{values.memory}MB</td>
-                <td>{values.disk}MB/sec</td>
-                <td>{values.network}MB/sec</td>
+                <td>{values.name}</td>
+                <td>{values.processorTimeUsage}%</td>
+                <td>{values.ramUsage}MB</td>
+                <td>-</td>
+                <td>-</td>
             </tr>
             )
         })
@@ -30,10 +29,10 @@ export class Processes extends Component {
                     </tr>
                     <tr className="descriptionPercent">
                         <th className="description"></th>
-                        <th className="description">{this.props.average.cpu}%</th>
-                        <th className="description">{this.props.average.memory}%</th>
-                        <th className="description">{this.props.average.disk}%</th>
-                        <th className="description">{this.props.average.network}%</th>
+                        <th className="description">{this.props.average.averageCpu}%</th>
+                        <th className="description">{this.props.average.averageRam}%</th>
+                        <th className="description">{this.props.average.averageDisc}%</th>
+                        <th className="description">{this.props.average.fullyNetworkSpeed}%</th>
                     </tr>
 
                     {this.process(this.props.data)}
