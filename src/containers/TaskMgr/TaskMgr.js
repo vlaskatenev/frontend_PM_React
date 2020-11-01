@@ -3,7 +3,9 @@ import './TaskMgr.css'
 import Graph from "../../components/Graph/Graph";
 import {initialState} from "../../components/Graph/initialState";
 import {Processes} from "../../components/processes/processes";
-import {dataFromPc} from "./axiosDataFromPC";
+import {resultCelery} from "./axiosDataFromPC";
+import {axiosPost} from "../../axios/axiosMethods"
+
 
 class TaskMgr extends Component {
 
@@ -29,15 +31,20 @@ class TaskMgr extends Component {
 
         const followData = async () => {
 
-            const response = await dataFromPc()
+            const taskId = await axiosPost('/start-command-tm', {
+                hostIp: "192.168.10.3",
+                scriptName: "avarageAllProcessData.ps1"
+            })
+
+            const response = await resultCelery(taskId.data.task_id)
 
             const stateDataCpu = _this.state.stateDataCpu
             const stateDataMemory = _this.state.stateDataMemory
-            stateDataCpu.push(response.data.averageCpu)
-            stateDataMemory.push(response.data.averageRam)
+            stateDataCpu.push(response.averageCpu)
+            stateDataMemory.push(response.averageRam)
 
             const newState = {
-                ...response.data,
+                ...response,
                 stateDataCpu,
                 stateDataMemory,
                 loading: false
