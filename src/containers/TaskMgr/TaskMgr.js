@@ -8,10 +8,9 @@ import {axiosPost} from "../../axios/axiosMethods"
 
 
 class TaskMgr extends Component {
-
-    componentWillMount(){
-
-        const state = {
+    constructor(props) {
+        super(props)
+        this.state = {
             detailProcessData: [],
             averageCpu: null,
             averageRam: null,
@@ -21,8 +20,6 @@ class TaskMgr extends Component {
             stateDataCpu: [],
             stateDataMemory: []
                 }
-
-        this.setState(state)
     }
 
     componentDidMount(){
@@ -31,7 +28,7 @@ class TaskMgr extends Component {
 
         const followData = async () => {
 
-            const taskId = await axiosPost('/start-command-tm', {
+            const taskId = await axiosPost('/functional/start-command-tm', {
                 hostIp: "192.168.10.3",
                 scriptName: "avarageAllProcessData.ps1"
             })

@@ -19,7 +19,7 @@ class App extends Component {
           <Route path='/taskmgr' exact component={TaskMgr}/>
           <Route path='/history' exact component={History}/>
           <Route path='/' exact component={InstallSoft}/>
-          <Redirect to={"/"}/>
+          <Redirect to={'/'}/>
         </Switch>
     )
 

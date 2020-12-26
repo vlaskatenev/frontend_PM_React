@@ -4,7 +4,7 @@ import {axiosPost} from "../../axios/axiosMethods";
 export const resultCelery = async taskId => {
     
     const data = async () => {
-        const result = await axiosPost('/get-status-process', {
+        const result = await axiosPost('/functional/get-status-process', {
             idProcess: taskId
         })
         
