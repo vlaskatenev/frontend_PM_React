@@ -26,3 +26,7 @@
     min-height: 150px;
     
 }
+
+.hidden {
+    z-index: -1;
+}

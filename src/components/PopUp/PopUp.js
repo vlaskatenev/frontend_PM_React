@@ -1,9 +1,9 @@
 import React from "react";
 import './PopUp.css'
 
-const RenderPopUp = ({active, setActive, content, setCompList}) => {
+const RenderPopUp = ({active, content, arrayWithFunctions, argumentsForFunctions}) => {
     return (
-        <div className={active ? 'modal active' : 'modal' } onClick={() => changeState(setActive, setCompList)}>
+        <div className={active ? 'modal active' : 'modal' } onClick={() => changeState(arrayWithFunctions, argumentsForFunctions)}>
             <div className='modal__content' onClick={e => e.stopPropagation()}>
                 {content}
             </div>
@@ -13,8 +13,11 @@ const RenderPopUp = ({active, setActive, content, setCompList}) => {
 
 export default RenderPopUp
 
-
-const changeState = (setActive, setCompList) => {
-    setActive(false)
-    setCompList([])
+// Изменяем состояния приложения
+// arrayWithFunctions - массив из функций, которые изменяют состояния
+// argumentsForFunctions - аргументы для этих функций
+const changeState = (arrayWithFunctions, argumentsForFunctions) => {
+    arrayWithFunctions.forEach((func, index) => {
+      func(argumentsForFunctions[index])
+    })
 }
