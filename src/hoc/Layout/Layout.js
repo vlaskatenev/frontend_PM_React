@@ -1,7 +1,6 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import './Layout.scss'
-import {NavLink} from "react-router-dom";
+import React, {Component} from 'react'
+import './Layout.css'
+import {NavLink} from 'react-router-dom'
 
 class Layout extends Component {
 
@@ -13,6 +12,7 @@ class Layout extends Component {
                     <div className="menu">
                         <div><NavLink  to="/">Главная</NavLink ></div>
                         <div><NavLink  to="/history">Просмотр логов</NavLink ></div>
+                        <div><NavLink  to="/taskmgr">Диспетчер задач</NavLink ></div>
                     </div>
                 </nav>
             </div>

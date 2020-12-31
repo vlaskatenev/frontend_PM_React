@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import InstallSoft from "./containers/InstallSoft/InstallSoft";
 import History from "./containers/History/History";
 import HistoryDetail from "./containers/HistoryDetail/HistoryDetail";
+import TaskMgr from "./containers/TaskMgr/TaskMgr";
 
 class App extends Component {
 
@@ -15,9 +16,10 @@ class App extends Component {
     const routes = (
         <Switch>
           <Route path='/history/:id' component={HistoryDetail}/>
+          <Route path='/taskmgr' exact component={TaskMgr}/>
           <Route path='/history' exact component={History}/>
           <Route path='/' exact component={InstallSoft}/>
-          <Redirect to={"/"}/>
+          <Redirect to={'/'}/>
         </Switch>
     )
 
