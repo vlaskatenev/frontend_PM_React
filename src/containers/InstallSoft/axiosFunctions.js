@@ -8,8 +8,6 @@ export const listNamePc = async (setModalActive, setobjFromAD) => {
 
 
 export const listProgramm = async (setModalActive, setAllProgramName) => { 
-    console.log('setModalActive', setModalActive); 
-    console.log('setAllProgramName', setAllProgramName); 
     const data = await axiosGet('/show-programm-list')
     setAllProgramName(data.data.data)
     setModalActive(2)
