@@ -17,6 +17,8 @@ export default RenderPopUp
 // arrayWithFunctions - массив из функций, которые изменяют состояния
 // argumentsForFunctions - аргументы для этих функций
 const changeState = (arrayWithFunctions, argumentsForFunctions) => {
+    console.log('arrayWithFunctions', arrayWithFunctions);
+    console.log('argumentsForFunctions', argumentsForFunctions);
     arrayWithFunctions.forEach((func, index) => {
       func(argumentsForFunctions[index])
     })

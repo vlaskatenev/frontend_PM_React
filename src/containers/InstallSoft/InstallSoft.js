@@ -7,9 +7,15 @@ import {axiosPost, axiosGet} from "../../axios/axiosMethods"
 const InstallSoft = () => {
 
 	const [modalActive, setModalActive] = useState(0)
-	const [objFromAD, setobjFromAD] = useState(false)
-	const [compList, setCompList] = useState([])
-	const [programmList, setProgrammList] = useState([])
+	const [objFromAD, setobjFromAD] = useState([])
+	const [distinguishedName, setDistinguishedName] = useState([])
+	const [allProgramName, setAllProgramName] = useState([])
+	const [program_name, setProgramName] = useState([])
+	const [program_id, setProgrammIdList] = useState([])
+	const [computer_name, setComputerNameList] = useState([])
+
+	const objForClearState = [setobjFromAD, setDistinguishedName, setAllProgramName, setProgramName, setProgrammIdList, setComputerNameList]
+
 
 	return (
 		<div className="InstallSoft">
@@ -31,17 +37,14 @@ const InstallSoft = () => {
 			</div>
 			<div className="popUpWindow">
 				<div className="popUpMainWindow">
-			{ (modalActive === 1)
-				? <RenderPopUp active={modalActive} 
-							   content={contentForPopUp(objFromAD, compList, setModalActive, setProgrammList)}
-							   arrayWithFunctions={[setModalActive, setCompList, setProgrammList]}
-							   argumentsForFunctions={[0, [], []]}
-							/> :
-				 (modalActive === 2) ? <div className="popUpChoiseProgramm"> <RenderPopUp active={modalActive} 
-				content={contentForChoiceProgramm(programmList, setModalActive, setProgrammList)}	
-				arrayWithFunctions={[setModalActive, setCompList, setProgrammList]}
-				argumentsForFunctions={[0, [], []]} /> </div>  : null
-				}
+				{ (modalActive === 1) ? <RenderPopUp active={modalActive} 
+					content={contentForPopUp(objFromAD, computer_name, distinguishedName, setModalActive, setAllProgramName)}
+					arrayWithFunctions={[setModalActive, ...objForClearState]}
+					argumentsForFunctions={[0, ...(new Array(objForClearState.length)).fill([])]} /> :
+				(modalActive === 2) ? <div className="popUpChoiseProgramm"> <RenderPopUp active={modalActive} 
+					content={contentForChoiceProgramm(objForClearState, program_name, allProgramName, program_id, setModalActive, distinguishedName, computer_name)}	
+					arrayWithFunctions={[setModalActive, ...objForClearState]}
+					argumentsForFunctions={[0, ...(new Array(objForClearState.length)).fill([])]} /> </div>  : null }
 				</div>
 		</div>
 		</div>
@@ -50,10 +53,13 @@ const InstallSoft = () => {
 		
 export default InstallSoft
 
-const addedCompToList = (compName, compList) => {
-		compList.indexOf( compName ) === -1 
-			? compList.push(compName) 
-			: compList.splice(compList.indexOf(compName), 1)
+function addedToList(elemName, listElemName) {
+ console.log("до изменения: ", listElemName);	
+	listElemName.indexOf( elemName ) === -1 
+			? listElemName.push(elemName) 
+			: listElemName.splice(listElemName.indexOf(elemName), 1)
+
+console.log("после изменения: ", listElemName);
 }
 
 
@@ -64,49 +70,70 @@ const listNamePc = async (setModalActive, setobjFromAD) => {
 }
 
 
-const listProgramm = async (setModalActive, setProgrammList) => {  
+const listProgramm = async (setModalActive, setAllProgramName) => {  
     const data = await axiosGet('/show-programm-list')
-    setProgrammList(data.data.data)
+    setAllProgramName(data.data.data)
     setModalActive(2)
 }
 
+
+const addedToGroupAD = async (setModalActive, objForClearState, objectToInstallSoft) => {  
+	const data = await axiosPost('/start-install', objectToInstallSoft)
+	objForClearState.forEach(func => {
+		func([])
+	  })
+    setModalActive(0)
+}
+
+
     
 
-const contentForPopUp = (objFromAD, compList, setModalActive, setProgrammList) => {
+const contentForPopUp = (objFromAD, computer_name, distinguishedName, setModalActive, setAllProgramName) => {
     return (
         <div>
             <h3>Выбери ПК</h3>
 		   <div>
 				{  objFromAD.computerName.map((compName, index) => <p key={index}>
-					<input onClick={(e) => addedCompToList(e.target.dataset.set, compList)} 
+					<input onClick={(e) => {
+						addedToList(e.target.dataset.set, distinguishedName)
+						addedToList(e.target.dataset.compname, computer_name)
+					}}
 					type="checkbox" 
-					data-set={objFromAD.DistinguishedName[index]} />{compName}</p>
+					data-set={objFromAD.DistinguishedName[index]} 
+					data-compname={objFromAD.computerName[index]} 
+					/>{compName}</p>
 				)
 			       
 			}   
 			</div>
-			<button onClick={() => listProgramm(setModalActive, setProgrammList)}>К выбору софта</button>
+			<button onClick={() => listProgramm(setModalActive, setAllProgramName)}>К выбору софта</button>
         </div>
     )
 }
 
 
-const contentForChoiceProgramm = (programmList, setModalActive, setProgrammList) => {
-	console.log(programmList);
+const contentForChoiceProgramm = (objForClearState, program_name, allProgramName, program_id, setModalActive, DistinguishedName, computer_name) => {
     return (
         <div>
             <h3>Выбери программу</h3>
 		   <div>
-				{  programmList[1].map((progName, index) => <p key={index}>
-					<input 
-					type="checkbox" 
-					 />{programmList[0][progName]}</p>
+				{  allProgramName.map(progObj => <p key={progObj.id}>
+					<input onClick={(e) => {
+						addedToList(e.target.dataset.progid, program_id)
+						addedToList(e.target.dataset.progname, program_name)
+					}}
+					type="checkbox" 					
+					data-progid={progObj.id}
+					data-progname={progObj.short_program_name}
+					 />{progObj.soft_display_name}</p>
 				)
 			       
 			}   
 			</div>
-			<button onClick={() => listProgramm(setModalActive, setProgrammList)}>Установить</button>
-        </div>
+			<button onClick={() => addedToGroupAD(setModalActive, objForClearState, {program_name, program_id, DistinguishedName, computer_name,
+																				"methodInputnamePc": false,
+																				})}>Установить</button>
+																						</div>
     )
 }
 
@@ -114,24 +141,28 @@ const contentForChoiceProgramm = (programmList, setModalActive, setProgrammList)
 // {
 //     "data": [
 //         {
-//             "1": "Google Chrome",
-//             "2": "Google Earth Pro",
-//             "3": "Notepad",
-//             "4": "PDF24 Creator 9.0.0",
-//             "5": "Acrobat Reader DC",
-//             "6": "Microsoft Visual C++ 2010  x86 Redistributable - 10.0.40219",
-//             "8": "Google Chrome",
-//             "9": "Google Chrome"
-//         },
-//         [
-//             1,
-//             2,
-//             3,
-//             4,
-//             5,
-//             6,
-//             8,
-//             9
-//         ]
+//             "id": 1,
+//             "short_program_name": "notepad",
+//             "soft_display_name": "Notepad++ (64-bit x64)"
+//         }
 //     ]
+// }
+
+// {
+// 	"program_name": programmList,
+// 	"program_id": [1],
+// 	"DistinguishedName": [
+// 		"CN=COMP3,OU=comps,DC=npr,DC=nornick,DC=ru", "CN=COMP2,OU=comps,DC=npr,DC=nornick,DC=ru"
+// 	],
+//    "methodInputnamePc": false,
+//    "computer_name": ["COMP3", "COMP2"]
+// }
+
+
+// const h = {
+// 	"program_name": programmList,
+// 	"program_id": programmIdList,
+// 	"DistinguishedName": compList,
+//    "methodInputnamePc": false,
+//    "computer_name": computerNameList
 // }
