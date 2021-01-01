@@ -11,7 +11,19 @@ export const createPopupWindow = (modalActive, setModalActive, funcContentCreate
 
 
 export const addedToList = (elemName, listElemName) => {
-	listElemName.indexOf( elemName ) === -1 
-			? listElemName.push(elemName) 
-            : listElemName.splice(listElemName.indexOf(elemName), 1)
+	const newList = [...listElemName]
+	newList.indexOf( elemName ) === -1 
+			? newList.push(elemName) 
+			: newList.splice(newList.indexOf(elemName), 1)
+	return newList
+}
+
+
+// при написании JSX кода data атрибуты должны быть выставлены в соотвествии с нахождением 
+// в массивах функций и переменных distinguishedName, computer_name
+export const changeStateForCompName = (datasetObj, stateList, funcList) => {
+	const listDataSet = Object.keys(datasetObj)
+	funcList.map((func, index) => {
+		func(addedToList(datasetObj[listDataSet[index]], stateList[index]))
+	})
 }

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './InstallSoft.css'
-import {listNamePc, listProgramm, addedToGroupAD}  from './axiosFunctions'
-import {createPopupWindow, addedToList}  from './pure.functions'
+import {listNamePc, listProgramm, addedToGroupAD, findComputerInAd}  from './axiosFunctions'
+import {createPopupWindow, addedToList, changeStateForCompName}  from './pure.functions'
 
 
 const InstallSoft = () => {
@@ -16,19 +16,24 @@ const InstallSoft = () => {
 
 	const objForClearState = [setobjFromAD, setDistinguishedName, setAllProgramName, setProgramName, setProgrammIdList, setComputerNameList]
 
-
 	return (
 		<div className="InstallSoft">
 			<div><p>Введи имя ПК если нужна установка на один компьютер:</p></div>
 			<div className="inputForm">
 				<div className="input"
-							contentEditable="true"
-							spellCheck="false"
-							data-set="input"
+					 contentEditable="true"
+					 spellCheck="false"
+					 data-inputcompname="input"
 				>
 				</div>
-				<div className="button">
-						<i className="material-icons" data-set="toStart">
+				<div className="button" onClick={() => {
+						const textFromInput = document.querySelector('[data-inputcompname="input"]').textContent.trim()
+						if (findComputerInAd(setDistinguishedName, setComputerNameList, setobjFromAD, textFromInput)) {
+							listProgramm(setModalActive, setAllProgramName) 
+						}
+
+					}}>
+						<i className="material-icons" data-computername="toStart">
 								flip_camera_android</i>
 				</div>
 			</div>
@@ -39,11 +44,12 @@ const InstallSoft = () => {
 				<div className="popUpMainWindow">
 					{ modalActive === 1
 					? createPopupWindow(modalActive, setModalActive, createChoiceComp,
-						[objFromAD, computer_name, distinguishedName, setModalActive, setAllProgramName],
+						[[setDistinguishedName, setComputerNameList], objFromAD, [distinguishedName, computer_name], setModalActive, setAllProgramName],
 						objForClearState)
-					: modalActive === 2 
+					: modalActive === 2
 						? createPopupWindow(modalActive, setModalActive, createChoiceProgramm,
-							[objForClearState, allProgramName, setModalActive, {program_name, program_id, distinguishedName, computer_name}], 
+							[[setProgrammIdList, setProgramName], objForClearState, allProgramName, setModalActive, 
+								{program_name, program_id, distinguishedName, computer_name}], 
 							objForClearState)
 						: null }
 				</div>
@@ -56,19 +62,17 @@ const InstallSoft = () => {
 export default InstallSoft
 
 
-const createChoiceComp = (objFromAD, computer_name, distinguishedName, setModalActive, setAllProgramName) => {
+const createChoiceComp = (funcList, objFromAD, stateList, setModalActive, setAllProgramName) => {
     return (
         <div>
             <h3>Выбери ПК</h3>
 		   <div>
 				{  objFromAD.computerName.map((compName, index) => <p key={index}>
 					<input onClick={(e) => {
-						const datasetObj = e.target.dataset
-						addedToList(datasetObj.set, distinguishedName)
-						addedToList(datasetObj.compname, computer_name)
+						changeStateForCompName(e.target.dataset, stateList, funcList)
 					}}
-					type='checkbox' 
-					data-set={objFromAD.DistinguishedName[index]} 
+					type='checkbox'
+					data-distinguishedname={objFromAD.DistinguishedName[index]}
 					data-compname={objFromAD.computerName[index]} 
 					/>{compName}</p>
 				)
@@ -81,7 +85,7 @@ const createChoiceComp = (objFromAD, computer_name, distinguishedName, setModalA
 }
 
 
-const createChoiceProgramm = (objForClearState, allProgramName, setModalActive, objForMainServer) => {
+const createChoiceProgramm = (funcList, objForClearState, allProgramName, setModalActive, objForMainServer) => {
   return (
     <div>
       <h3>Выбери программу</h3>
@@ -89,9 +93,9 @@ const createChoiceProgramm = (objForClearState, allProgramName, setModalActive, 
 				<div>
 					{  allProgramName.map(progObj => <p key={progObj.id}>
 						<input onClick={(e) => {
-							const datasetObj = e.target.dataset
-							addedToList(datasetObj.progid, objForMainServer.program_id)
-							addedToList(datasetObj.progname, objForMainServer.program_name)
+							changeStateForCompName(e.target.dataset,
+								[objForMainServer.program_id, objForMainServer.program_name], 
+								funcList)
 						}}
 						type='checkbox' 				
 						data-progid={progObj.id}

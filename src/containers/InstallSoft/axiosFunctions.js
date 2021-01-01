@@ -7,6 +7,16 @@ export const listNamePc = async (setModalActive, setobjFromAD) => {
 }
 
 
+export const findComputerInAd = async (setDistinguishedName, setComputerNameList, setobjFromAD, computerName) => {  
+    const data = await axiosPost('/find-computer-in-ad', {computerName})
+    const objFromAd = data.data.data
+    setobjFromAD(objFromAd)
+    setDistinguishedName(objFromAd.DistinguishedName)
+	setComputerNameList(objFromAd.computerName)
+    return objFromAd.adMember
+}
+
+
 export const listProgramm = async (setModalActive, setAllProgramName) => { 
     const data = await axiosGet('/show-programm-list')
     setAllProgramName(data.data.data)
