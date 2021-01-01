@@ -19,6 +19,7 @@ export const addedToList = (elemName, listElemName) => {
 }
 
 
+// изменяем сразу несколько состояний в одной функции
 // при написании JSX кода data атрибуты должны быть выставлены в соотвествии с нахождением 
 // в массивах функций и переменных distinguishedName, computer_name
 export const changeStateForCompName = (datasetObj, stateList, funcList) => {

@@ -1,14 +1,14 @@
-import {axiosPost, axiosGet} from "../../axios/axiosMethods"
+import {toListNamePc, toFindComputerInAd, toListProgramm, toAddedToGroupAD} from '../../axios/axiosMethods'
 
 export const listNamePc = async (setModalActive, setobjFromAD) => {  
-    const data = await axiosPost('/list-computers', {ad_tree: "OU=comps,DC=npr,DC=nornick,DC=ru"})
+    const data = await toListNamePc()
     setobjFromAD(data.data.data)
     setModalActive(1)
 }
 
 
 export const findComputerInAd = async (setDistinguishedName, setComputerNameList, setobjFromAD, computerName) => {  
-    const data = await axiosPost('/find-computer-in-ad', {computerName})
+    const data = await toFindComputerInAd(computerName)
     const objFromAd = data.data.data
     setobjFromAD(objFromAd)
     setDistinguishedName(objFromAd.DistinguishedName)
@@ -18,14 +18,14 @@ export const findComputerInAd = async (setDistinguishedName, setComputerNameList
 
 
 export const listProgramm = async (setModalActive, setAllProgramName) => { 
-    const data = await axiosGet('/show-programm-list')
+    const data = await toListProgramm()
     setAllProgramName(data.data.data)
     setModalActive(2)
 }
 
 
 export const addedToGroupAD = async (setModalActive, objForClearState, objectToInstallSoft) => {  
-	const data = await axiosPost('/start-install', objectToInstallSoft)
+	const data = await toAddedToGroupAD(objectToInstallSoft)
 	objForClearState.forEach(func => {
 		func([])
 	  })

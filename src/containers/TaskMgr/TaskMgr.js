@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import './TaskMgr.css'
-import Graph from "../../components/Graph/Graph";
-import {initialState} from "../../components/Graph/initialState";
-import {Processes} from "../../components/processes/processes";
-import {resultCelery} from "./axiosDataFromPC";
-import {axiosPost} from "../../axios/axiosMethods"
+import Graph from '../../components/Graph/Graph'
+import {initialState} from '../../components/Graph/initialState'
+import {Processes} from '../../components/processes/processes'
+import {resultCelery} from './axiosDataFromPC'
+import {followDataToClient} from '../../axios/axiosMethods'
 
 
 class TaskMgr extends Component {
@@ -28,9 +28,9 @@ class TaskMgr extends Component {
 
         const followData = async () => {
 
-            const taskId = await axiosPost('/functional/start-command-tm', {
-                hostIp: "192.168.10.3",
-                scriptName: "avarageAllProcessData.ps1"
+            const taskId = followDataToClient({
+                hostIp: '192.168.10.3',
+                scriptName: 'avarageAllProcessData.ps1'
             })
 
             const response = await resultCelery(taskId.data.task_id)
@@ -60,9 +60,9 @@ class TaskMgr extends Component {
 
                 { this.state.loading
                     ? <h3>Процессы загружаются, ждите!!!!</h3>
-                    : <div className="page">
-                        <div className="iconGroup">
-                            <div className="icon">
+                    : <div className='page'>
+                        <div className='iconGroup'>
+                            <div className='icon'>
                                 <h3>CPU</h3>
                                 <div>
                                     <Graph
@@ -70,7 +70,7 @@ class TaskMgr extends Component {
                                     />
                                 </div>
                             </div>
-                            <div className="icon">
+                            <div className='icon'>
                                 <h3>RAM</h3>
                                 <div>
                                     <Graph
