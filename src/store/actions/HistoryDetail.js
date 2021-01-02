@@ -1,5 +1,5 @@
-import axios from "../../axios/axios";
-import {FETCH_HISTORY_DETAIL_START, FETCH_HISTORY_DETAIL_SUCCESS} from "./actionTypes";
+import axios from '../../axios/axios'
+import {FETCH_HISTORY_DETAIL_START, FETCH_HISTORY_DETAIL_SUCCESS} from './actionTypes'
 
 
 export function fetchHistoryDetailList(data) {

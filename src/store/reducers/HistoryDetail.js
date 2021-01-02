@@ -1,7 +1,7 @@
 import {
     FETCH_HISTORY_DETAIL_START,
     FETCH_HISTORY_DETAIL_SUCCESS,
-} from "../actions/actionTypes";
+} from '../actions/actionTypes'
 
 const initialState = {
     loading: false,

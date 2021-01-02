@@ -1,4 +1,4 @@
-import {FETCH_HISTORY_START, FETCH_HISTORY_SUCCESS} from "../actions/actionTypes";
+import {FETCH_HISTORY_START, FETCH_HISTORY_SUCCESS} from '../actions/actionTypes'
 
 const initialState = {
     loading: false,

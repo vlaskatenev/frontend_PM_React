@@ -7,12 +7,12 @@ class Layout extends Component {
     render() {
         return (
             <>
-            <div className="Layout">
+            <div className='Layout'>
                 <nav>
                     <div className="menu">
-                        <div><NavLink  to="/">Главная</NavLink ></div>
-                        <div><NavLink  to="/history">Просмотр логов</NavLink ></div>
-                        <div><NavLink  to="/taskmgr">Диспетчер задач</NavLink ></div>
+                        <div><NavLink  to='/'>Главная</NavLink ></div>
+                        <div><NavLink  to='/history'>Просмотр логов</NavLink ></div>
+                        <div><NavLink  to='/taskmgr'>Диспетчер задач</NavLink ></div>
                     </div>
                 </nav>
             </div>
