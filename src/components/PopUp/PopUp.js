@@ -1,11 +1,11 @@
 import React from "react";
 import './PopUp.css'
 
-const RenderPopUp = ({active, content, arrayWithFunctions, argumentsForFunctions}) => {
+const RenderPopUp = (props) => {
     return (
-        <div className={active ? 'modal active' : 'modal' } onClick={() => changeState(arrayWithFunctions, argumentsForFunctions)}>
+        <div  className={props.active ? 'modal active' : 'modal' } onClick={() => changeState(props.arrayWithFunctions, props.argumentsForFunctions)}>
             <div className='modal__content' onClick={e => e.stopPropagation()}>
-                {content}
+                {props.children}
             </div>
         </div>
     )

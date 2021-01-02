@@ -2,11 +2,13 @@ import React from 'react'
 import RenderPopUp from '../../components/PopUp/PopUp'
 
 
-export const createPopupWindow = (modalActive, setModalActive, funcContentCreate, argumentsForContent, objForClearState) => {
-	return <RenderPopUp active={modalActive} 
-		content={funcContentCreate(...argumentsForContent)}
-		arrayWithFunctions={[setModalActive, ...objForClearState]}
-		argumentsForFunctions={[0, ...(new Array(objForClearState.length)).fill([])]} />
+export const PopupInstallSoft = (props) => {
+	return <RenderPopUp active={props.modalActive}
+		// content={ContentComponent}
+		arrayWithFunctions={[props.setModalActive, ...props.objForClearState]}
+		argumentsForFunctions={[0, ...Array(props.objForClearState.length).fill([])]} >
+			{props.children}
+		  </RenderPopUp>
 }
 
 
@@ -28,3 +30,6 @@ export const changeStateForCompName = (datasetObj, stateList, funcList) => {
 		func(addedToList(datasetObj[listDataSet[index]], stateList[index]))
 	})
 }
+
+
+export const readInputCompName = () => document.querySelector('[data-inputcompname="input"]').textContent.trim()

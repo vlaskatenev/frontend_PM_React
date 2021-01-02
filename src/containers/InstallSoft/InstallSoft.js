@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './InstallSoft.css'
 import {listNamePc, listProgramm, addedToGroupAD, findComputerInAd}  from './axiosFunctions'
-import {createPopupWindow, addedToList, changeStateForCompName}  from './pure.functions'
+import {PopupInstallSoft, changeStateForCompName, readInputCompName}  from './pure.functions'
 
 
 const InstallSoft = () => {
@@ -14,7 +14,14 @@ const InstallSoft = () => {
 	const [program_id, setProgrammIdList] = useState([])
 	const [computer_name, setComputerNameList] = useState([])
 
-	const objForClearState = [setobjFromAD, setDistinguishedName, setAllProgramName, setProgramName, setProgrammIdList, setComputerNameList]
+	const objForClearState = [
+    setobjFromAD, 
+    setDistinguishedName, 
+    setAllProgramName, 
+    setProgramName, 
+    setProgrammIdList, 
+    setComputerNameList
+  ]
 
 	return (
 		<div className='InstallSoft'>
@@ -27,8 +34,7 @@ const InstallSoft = () => {
 				>
 				</div>
 				<div className='button' onClick={() => {
-						const textFromInput = document.querySelector('[data-inputcompname="input"]').textContent.trim()
-						if (findComputerInAd(setDistinguishedName, setComputerNameList, setobjFromAD, textFromInput)) {
+						if (findComputerInAd(setDistinguishedName, setComputerNameList, setobjFromAD, readInputCompName())) {
 							listProgramm(setModalActive, setAllProgramName) 
 						}}}>
 						<i className='material-icons' data-computername='toStart'>
@@ -41,14 +47,28 @@ const InstallSoft = () => {
 			<div className='popUpWindow'>
 				<div className='popUpMainWindow'>
 					{ modalActive === 1
-					? createPopupWindow(modalActive, setModalActive, createChoiceComp,
-						[[setDistinguishedName, setComputerNameList], objFromAD, [distinguishedName, computer_name], setModalActive, setAllProgramName],
-						objForClearState)
+					? <PopupInstallSoft 
+						modalActive={modalActive}
+						setModalActive={setModalActive} 
+						objForClearState={objForClearState}>
+							<ChoiceComp funcList={[setDistinguishedName, setComputerNameList]}
+								objFromAD={objFromAD}
+								stateList={[distinguishedName, computer_name]}
+								setModalActive={setModalActive}
+								setAllProgramName={setAllProgramName}/>
+					   </PopupInstallSoft>		
 					: modalActive === 2
-						? createPopupWindow(modalActive, setModalActive, createChoiceProgramm,
-							[[setProgrammIdList, setProgramName], objForClearState, allProgramName, setModalActive, 
-								{program_name, program_id, distinguishedName, computer_name}], 
-							objForClearState)
+						? <PopupInstallSoft 
+                modalActive={modalActive}
+                setModalActive={setModalActive}
+                objForClearState={objForClearState}>
+                  <ChoiceProgramm
+                    funcList={[setProgrammIdList, setProgramName]}
+                    objForClearState={objForClearState}
+                    allProgramName={allProgramName}
+                    setModalActive={setModalActive}
+                    objForMainServer={{program_name, program_id, distinguishedName, computer_name}}/>
+							</PopupInstallSoft>
 						: null }
 				</div>
 		</div>
@@ -56,11 +76,10 @@ const InstallSoft = () => {
 	)
 }
 
-		
 export default InstallSoft
 
 
-const createChoiceComp = (funcList, objFromAD, stateList, setModalActive, setAllProgramName) => {
+const ChoiceComp = ({funcList, objFromAD, stateList, setModalActive, setAllProgramName}) => {
     return (
         <div>
             <h3>Выбери ПК</h3>
@@ -81,11 +100,10 @@ const createChoiceComp = (funcList, objFromAD, stateList, setModalActive, setAll
 }
 
 
-const createChoiceProgramm = (funcList, objForClearState, allProgramName, setModalActive, objForMainServer) => {
+const ChoiceProgramm = ({funcList, objForClearState, allProgramName, setModalActive, objForMainServer}) => {
   return (
     <div>
       <h3>Выбери программу</h3>
-		  <div>
 				<div>
 					{allProgramName.map(progObj => <p key={progObj.id}>
 						<input onClick={(e) => {
@@ -104,6 +122,5 @@ const createChoiceProgramm = (funcList, objForClearState, allProgramName, setMod
 						{...objForMainServer, 'methodInputnamePc': false}
 					)}>Установить</button>
 			</div>
-		</div>
     )
 }
