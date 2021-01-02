@@ -16,12 +16,13 @@ const InstallSoft = () => {
 	const [computer_name, setComputerNameList] = useState([])
 
 	const objForClearState = [
-    setobjFromAD, 
-    setDistinguishedName, 
-    setAllProgramName, 
-    setProgramName, 
-    setProgrammIdList, 
-    setComputerNameList
+		setModalActive.bind(this, 0),
+		setobjFromAD.bind(this, []), 
+		setDistinguishedName.bind(this, []), 
+		setAllProgramName.bind(this, []), 
+		setProgramName.bind(this, []), 
+		setProgrammIdList.bind(this, []), 
+		setComputerNameList.bind(this, [])
   ]
 
 	return (
@@ -45,7 +46,6 @@ const InstallSoft = () => {
 					{ modalActive === 1
 					? <PopupInstallSoft 
 						modalActive={modalActive}
-						setModalActive={setModalActive} 
 						objForClearState={objForClearState}>
 							<ChoiceComp funcList={[setDistinguishedName, setComputerNameList]}
 								objFromAD={objFromAD}
@@ -56,13 +56,11 @@ const InstallSoft = () => {
 					: modalActive === 2
 						? <PopupInstallSoft 
                 modalActive={modalActive}
-                setModalActive={setModalActive}
                 objForClearState={objForClearState}>
                   <ChoiceProgramm
                     funcList={[setProgrammIdList, setProgramName]}
                     objForClearState={objForClearState}
                     allProgramName={allProgramName}
-                    setModalActive={setModalActive}
                     objForMainServer={{program_name, program_id, distinguishedName, computer_name}}/>
 							</PopupInstallSoft>
 						: null }
@@ -81,9 +79,7 @@ const ChoiceComp = ({funcList, objFromAD, stateList, setModalActive, setAllProgr
             <h3>Выбери ПК</h3>
 		   <div>
 				{objFromAD.computerName.map((compName, index) => <p key={index}>
-					<input onClick={(e) => {
-						changeStateForCompName(e.target.dataset, stateList, funcList)
-					}}
+					<input onClick={e => changeStateForCompName(e.target.dataset, stateList, funcList)}
 					type='checkbox'
 					data-distinguishedname={objFromAD.DistinguishedName[index]}
 					data-compname={objFromAD.computerName[index]} 
@@ -96,7 +92,7 @@ const ChoiceComp = ({funcList, objFromAD, stateList, setModalActive, setAllProgr
 }
 
 
-const ChoiceProgramm = ({funcList, objForClearState, allProgramName, setModalActive, objForMainServer}) => {
+const ChoiceProgramm = ({funcList, objForClearState, allProgramName, objForMainServer}) => {
   return (
     <div>
       <h3>Выбери программу</h3>
@@ -113,8 +109,7 @@ const ChoiceProgramm = ({funcList, objForClearState, allProgramName, setModalAct
 						 />{progObj.soft_display_name}</p>
 					)}  
 				</div>
-				<button onClick={() => addedToGroupAD(
-						setModalActive, objForClearState, 
+				<button onClick={() => addedToGroupAD(objForClearState, 
 						{...objForMainServer, 'methodInputnamePc': false}
 					)}>Установить</button>
 			</div>

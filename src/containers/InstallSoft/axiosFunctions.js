@@ -24,11 +24,10 @@ export const listProgramm = async (setModalActive, setAllProgramName) => {
 }
 
 
-export const addedToGroupAD = async (setModalActive, objForClearState, objectToInstallSoft) => {  
+export const addedToGroupAD = async (objForClearState, objectToInstallSoft) => {  
 	const data = await toAddedToGroupAD(objectToInstallSoft)
 	objForClearState.forEach(func => {
-		func([])
+		func()
 	  })
-    setModalActive(0)
 }
 
