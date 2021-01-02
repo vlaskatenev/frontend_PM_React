@@ -32,4 +32,4 @@ export const changeStateForCompName = (datasetObj, stateList, funcList) => {
 }
 
 
-export const readInputCompName = () => document.querySelector('[data-inputcompname="input"]').textContent.trim()
+export const readInputCompName = e => e.currentTarget.parentNode.querySelector('[data-setinput="input"]').value.trim()

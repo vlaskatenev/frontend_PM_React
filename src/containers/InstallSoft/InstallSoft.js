@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import './InstallSoft.css'
 import {listNamePc, listProgramm, addedToGroupAD, findComputerInAd}  from './axiosFunctions'
 import {PopupInstallSoft, changeStateForCompName, readInputCompName}  from './pure.functions'
+import InputForm from '../../components/InputForm/InputForm'
 
 
 const InstallSoft = () => {
@@ -26,21 +27,16 @@ const InstallSoft = () => {
 	return (
 		<div className='InstallSoft'>
 			<div><p>Введи имя ПК если нужна установка на один компьютер:</p></div>
-			<div className='inputForm'>
-				<div className='input'
-					 contentEditable='true'
-					 spellCheck='false'
-					 data-inputcompname='input'
-				>
-				</div>
-				<div className='button' onClick={() => {
-						if (findComputerInAd(setDistinguishedName, setComputerNameList, setobjFromAD, readInputCompName())) {
+
+			<InputForm 
+                    type='text'
+                    handleClickButton={event => {
+						if (findComputerInAd(setDistinguishedName, setComputerNameList, setobjFromAD, readInputCompName(event))) {
 							listProgramm(setModalActive, setAllProgramName) 
-						}}}>
-						<i className='material-icons' data-computername='toStart'>
-								flip_camera_android</i>
-				</div>
-			</div>
+						}}}
+                />
+			
+
 			<div>
 				<button onClick={() => {listNamePc(setModalActive, setobjFromAD)}}>Выбрать ПК</button>
 			</div>

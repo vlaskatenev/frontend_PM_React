@@ -1,9 +1,10 @@
 import axios from 'axios'
+import {baseURL, authorizationToken} from '../variables.global'
 
 export default axios.create({
-    baseURL: 'http://127.0.0.1:8081/',
+    baseURL,
     headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Token 6845ceea30ebdfd038a0e45324c90d4003803ea8'
+        'Authorization': authorizationToken
     }
 })

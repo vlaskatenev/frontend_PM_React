@@ -3,24 +3,18 @@ import './History.css'
 import {connect} from "react-redux";
 import {fetchHistoryList} from "../../store/actions/History"
 import {renderTable} from "../../components/Table/Table";
+import InputForm from '../../components/InputForm/InputForm'
 
 class History extends Component {
 
     render() {
         return (
             <div className="History">
-                <input
-                    type="date"
-                    className="input"
-                    data-set="input"
+
+                <InputForm 
+                    type='date'
+                    handleClickButton={this.props.fetchHistory}
                 />
-                <div
-                    className="History__button"
-                    onClick={this.props.fetchHistory}
-                >
-                    <i className="material-icons" data-set="toStart">
-                        flip_camera_android</i>
-                </div>
 
                 {
                     this.props.loading

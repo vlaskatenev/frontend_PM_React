@@ -5,6 +5,7 @@ import {initialState} from '../../components/Graph/initialState'
 import {Processes} from '../../components/processes/processes'
 import {resultCelery} from './axiosDataFromPC'
 import {followDataToClient} from '../../axios/axiosMethods'
+import {scriptAvarageAllProcessData} from './variables'
 
 
 class TaskMgr extends Component {
@@ -30,7 +31,7 @@ class TaskMgr extends Component {
 
             const taskId = followDataToClient({
                 hostIp: '192.168.10.3',
-                scriptName: 'avarageAllProcessData.ps1'
+                scriptName: scriptAvarageAllProcessData
             })
 
             const response = await resultCelery(taskId.data.task_id)

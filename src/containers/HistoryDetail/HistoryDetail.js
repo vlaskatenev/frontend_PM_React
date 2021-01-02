@@ -17,15 +17,6 @@ class HistoryDetail extends Component {
         const installStatus = dataArray[0].status
         const progNameObject = dataArray[2].prog_name_dict
 
-        // const log = logArray.map(toLog)
-        // log.unshift(toInstallStatus(progNameObject, installStatus))
-        // log.unshift(`<p class="nameLogBlock">История установки</p>
-        //                   <p>Время установки: ${installTime}</p>
-        //                   <p>Старт установки: ${dateStart}</p>
-        //                   <p>Имя компьютера: ${compName}</p>
-        //                 `)
-        // return log.join('')
-
 
         const log = logArray.map((data, index) => {
             return (

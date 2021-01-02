@@ -1,0 +1,26 @@
+
+.inputForm{
+    display: flex;
+    width: 100%;
+}
+
+.block__input{
+    width: 100%;
+}
+
+.input {
+    display: inline-block;
+    padding: 10px 17px;
+    font-size: 1.5em;
+    outline: none;
+    height: 45px;
+    color: black;
+    border: 1px solid black;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.button{
+    cursor: pointer;
+    margin: 10px;
+}
