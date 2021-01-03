@@ -1,19 +1,19 @@
-import React, {Component} from "react";
+import React, {Component} from 'react'
 import './History.css'
-import {connect} from "react-redux";
-import {fetchHistoryList} from "../../store/actions/History"
-import {renderTable} from "../../components/Table/Table";
+import {connect} from 'react-redux'
+import {fetchHistoryList} from '../../store/actions/History'
+import {renderTable} from '../../components/Table/Table'
 import InputForm from '../../components/InputForm/InputForm'
 
 class History extends Component {
 
     render() {
         return (
-            <div className="History">
+            <div className='History'>
 
                 <InputForm 
                     type='date'
-                    handleClickButton={this.props.fetchHistory}
+                    handleClickButton={textValue => this.props.fetchHistory(textValue)}
                 />
 
                 {
@@ -36,7 +36,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchHistory: () => dispatch(fetchHistoryList())
+        fetchHistory: textValue => dispatch(fetchHistoryList(textValue))
     }
 }
 

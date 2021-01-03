@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './InputForm.css'
 import ButtonForInput from '../ButtonInput/ButtonInput'
 
 
 const InputForm = (props) => {
+	const [value, setValue] = useState('')
 
 	return (
 		<div className='inputForm'>
@@ -14,9 +15,12 @@ const InputForm = (props) => {
 				data-setinput='input'
                 />
 			</div>
-			<ButtonForInput handleClickButton={props.handleClickButton}/>
+			<ButtonForInput handleClickButton={e => props.handleClickButton(readInput(e))}/>
 		</div>
 	)
 }
 
 export default InputForm
+
+const readInput = e => e.currentTarget.parentNode.querySelector('[data-setinput="input"]').value.trim()
+

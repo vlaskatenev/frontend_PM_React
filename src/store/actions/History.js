@@ -2,13 +2,14 @@ import axios from "../../axios/axios";
 import {FETCH_HISTORY_START, FETCH_HISTORY_SUCCESS} from "./actionTypes";
 
 
-export function fetchHistoryList() {
+export function fetchHistoryList(textValue) {
     return async dispatch => {
         dispatch(fetchHistoryStart())
         try {
-            const text = document.querySelector('[data-set="input"]').value
+            console.log('textValue', textValue);
+            // const text = document.querySelector('[data-setinput="input"]').value
             const response = await axios.post('/history', {
-                data: text
+                data: textValue
             })
             dispatch(fetchHistorySuccess(response.data.data))
         } catch (e) {

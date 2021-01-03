@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './InstallSoft.css'
 import {listNamePc, listProgramm, addedToGroupAD, findComputerInAd}  from './axiosFunctions'
-import {PopupInstallSoft, changeStateForCompName, readInputCompName}  from './pure.functions'
+import {PopupInstallSoft, changeStateForCompName}  from './pure.functions'
 import InputForm from '../../components/InputForm/InputForm'
 
 
@@ -15,6 +15,7 @@ const InstallSoft = () => {
 	const [program_id, setProgrammIdList] = useState([])
 	const [computer_name, setComputerNameList] = useState([])
 
+	// массив с функциями и аргументами для сброса useState по дефолту для всех состояний
 	const objForClearState = [
 		setModalActive.bind(this, 0),
 		setobjFromAD.bind(this, []), 
@@ -25,45 +26,42 @@ const InstallSoft = () => {
 		setComputerNameList.bind(this, [])
   ]
 
+	const objChoiceComp = <ChoiceComp funcList={[setDistinguishedName, setComputerNameList]}
+		objFromAD={objFromAD}
+		stateList={[distinguishedName, computer_name]}
+		setModalActive={setModalActive}
+		setAllProgramName={setAllProgramName}/>
+
+	const objChoiceProgramm = <ChoiceProgramm
+		funcList={[setProgrammIdList, setProgramName]}
+		objForClearState={objForClearState}
+		allProgramName={allProgramName}
+		objForMainServer={{program_name, program_id, distinguishedName, computer_name}}/>
+
+
 	return (
 		<div className='InstallSoft'>
 			<div><p>Введи имя ПК если нужна установка на один компьютер:</p></div>
 
-			<InputForm 
-                    type='text'
-                    handleClickButton={event => {
-						if (findComputerInAd(setDistinguishedName, setComputerNameList, setobjFromAD, readInputCompName(event))) {
-							listProgramm(setModalActive, setAllProgramName) 
-						}}}
-                />
-			
-
+			<InputForm type='text'
+				handleClickButton={(valueText) => {
+					if (findComputerInAd(setDistinguishedName, setComputerNameList, setobjFromAD, valueText)) {
+						listProgramm(setModalActive, setAllProgramName) 
+					}}} />
 			<div>
 				<button onClick={() => {listNamePc(setModalActive, setobjFromAD)}}>Выбрать ПК</button>
 			</div>
 			<div className='popUpWindow'>
 				<div className='popUpMainWindow'>
 					{ modalActive === 1
-					? <PopupInstallSoft 
-						modalActive={modalActive}
-						objForClearState={objForClearState}>
-							<ChoiceComp funcList={[setDistinguishedName, setComputerNameList]}
-								objFromAD={objFromAD}
-								stateList={[distinguishedName, computer_name]}
-								setModalActive={setModalActive}
-								setAllProgramName={setAllProgramName}/>
-					   </PopupInstallSoft>		
-					: modalActive === 2
-						? <PopupInstallSoft 
-                modalActive={modalActive}
-                objForClearState={objForClearState}>
-                  <ChoiceProgramm
-                    funcList={[setProgrammIdList, setProgramName]}
-                    objForClearState={objForClearState}
-                    allProgramName={allProgramName}
-                    objForMainServer={{program_name, program_id, distinguishedName, computer_name}}/>
-							</PopupInstallSoft>
-						: null }
+						? <PopupInstallSoft modalActive={modalActive}
+							objForClearState={objForClearState}
+							content={objChoiceComp}/>	
+						: modalActive === 2
+							? <PopupInstallSoft modalActive={modalActive}
+								objForClearState={objForClearState}
+								content={objChoiceProgramm}/>
+							: null }
 				</div>
 		</div>
 		</div>

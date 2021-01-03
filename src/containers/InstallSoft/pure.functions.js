@@ -5,7 +5,7 @@ import RenderPopUp from '../../components/PopUp/PopUp'
 export const PopupInstallSoft = (props) => {
 	return <RenderPopUp active={props.modalActive}
 		arrayWithFunctions={props.objForClearState}>
-			{props.children}
+			{props.content}
 		  </RenderPopUp>
 }
 
@@ -28,6 +28,3 @@ export const changeStateForCompName = (datasetObj, stateList, funcList) => {
 		func(addedToList(datasetObj[listDataSet[index]], stateList[index]))
 	})
 }
-
-
-export const readInputCompName = e => e.currentTarget.parentNode.querySelector('[data-setinput="input"]').value.trim()
