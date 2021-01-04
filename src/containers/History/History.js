@@ -16,11 +16,10 @@ class History extends Component {
                     handleClickButton={textValue => this.props.fetchHistory(textValue)}
                 />
                 {this.props.loading
-                        ? <Table 
-                            nameTable={['Имя ПК', 'Статус', '', 'Дата']}
-                            content={this.props.historyList}
-                            keysObj={['computer_name', 'events_id', addTag, 'date_time']} />
-                        : null}
+                    && <Table 
+                        nameTable={['Имя ПК', 'Статус', '', 'Дата']}
+                        content={this.props.historyList}
+                        keysObj={['computer_name', 'events_id', addTag, 'date_time']} />}
             </div>
         )
     }

@@ -1,29 +1,8 @@
-import React, {Component} from "react";
+import React, {Component} from 'react'
 import './HistoryDetail.css'
-import {fetchHistoryDetailList} from "../../store/actions/HistoryDetail"
-import {connect} from "react-redux";
-// import {toInstallStatus} from "./historyDetail.pure.function";
-
-
-const Table = props => {
-    return (
-        <div>
-            <table className='Table'><tbody>
-            {/* Формируем загловок таблицы: */}
-            <tr key={56}>
-                {props.nameTable.map(name => <th>{name}</th>)}
-            </tr>
-
-            {/* Формируем строки таблицы */}
-            {props.content.map(el => {
-                return <tr>
-                {props.keysObj.map(keys => <td>{el[keys]}</td>)}
-                </tr>
-            })}        
-            </tbody></table>
-        </div>
-    )
-}
+import {fetchHistoryDetailList} from '../../store/actions/HistoryDetail'
+import {connect} from 'react-redux'
+import {Table} from '../../components/Table/Table'
 
 
 class HistoryDetail extends Component {
@@ -35,15 +14,13 @@ class HistoryDetail extends Component {
     render() {
         return (
             <div className="HistoryDetail">
-                    {
-                        this.props.loading
-                            ? <Table
-                                nameTable={['date_time', 'computer_name', 'program_id_id', 'events_id', 'result_work']}
-                                content={this.props.historyDetailList}
-                                keysObj={['date_time', 'computer_name', 'program_id_id', 'events_id','result_work']}
-                              />
-                            : <div><h3>Загрузка</h3></div>
-                    }
+                {this.props.loading
+                    ? <Table
+                        nameTable={['date_time', 'computer_name', 'program_id_id', 'events_id', 'result_work']}
+                        content={this.props.historyDetailList}
+                        keysObj={['date_time', 'computer_name', 'program_id_id', 'events_id','result_work']}
+                        />
+                    : <div><h3>Загрузка</h3></div>}
             </div>
         )
     }
