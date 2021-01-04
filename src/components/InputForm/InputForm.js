@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './InputForm.css'
 import ButtonForInput from '../ButtonInput/ButtonInput'
 
 
 const InputForm = (props) => {
-	const [value, setValue] = useState('')
 
 	return (
 		<div className='inputForm'>

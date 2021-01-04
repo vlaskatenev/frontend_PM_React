@@ -2,40 +2,31 @@ import React, {Component} from "react";
 import './HistoryDetail.css'
 import {fetchHistoryDetailList} from "../../store/actions/HistoryDetail"
 import {connect} from "react-redux";
-import {toInstallStatus} from "./historyDetail.pure.function";
+// import {toInstallStatus} from "./historyDetail.pure.function";
 
+
+const Table = props => {
+    return (
+        <div>
+            <table className='Table'><tbody>
+            {/* Формируем загловок таблицы: */}
+            <tr key={56}>
+                {props.nameTable.map(name => <th>{name}</th>)}
+            </tr>
+
+            {/* Формируем строки таблицы */}
+            {props.content.map(el => {
+                return <tr>
+                {props.keysObj.map(keys => <td>{el[keys]}</td>)}
+                </tr>
+            })}        
+            </tbody></table>
+        </div>
+    )
+}
 
 
 class HistoryDetail extends Component {
-
-    renderDetail() {
-        const dataArray = this.props.historyDetailList
-        const compName = dataArray[0].computername
-        const logArray = dataArray[1].events_array
-        const dateStart = dataArray[0].date_start
-        const installTime = dataArray[0].install_time
-        const installStatus = dataArray[0].status
-        const progNameObject = dataArray[2].prog_name_dict
-
-
-        const log = logArray.map((data, index) => {
-            return (
-                <p key={index}>{data}</p>
-            )
-        })
-
-        log.unshift(toInstallStatus(progNameObject, installStatus))
-
-        log.unshift((
-            <div key={log.length + 1}>
-            <p className="nameLogBlock">История установки</p>
-                          <p>Время установки: {installTime}</p>
-                          <p>Старт установки: {dateStart}</p>
-                          <p>Имя компьютера: {compName}</p>
-            </div>
-                        ))
-        return log
-    }
 
     componentDidMount() {
         this.props.fetchHistoryDetail(this.props.match.params.id)
@@ -46,7 +37,11 @@ class HistoryDetail extends Component {
             <div className="HistoryDetail">
                     {
                         this.props.loading
-                            ? this.renderDetail()
+                            ? <Table
+                                nameTable={['date_time', 'computer_name', 'program_id_id', 'events_id', 'result_work']}
+                                content={this.props.historyDetailList}
+                                keysObj={['date_time', 'computer_name', 'program_id_id', 'events_id','result_work']}
+                              />
                             : <div><h3>Загрузка</h3></div>
                     }
             </div>
