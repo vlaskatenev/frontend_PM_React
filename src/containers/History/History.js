@@ -1,34 +1,53 @@
-import React, {Component} from 'react'
+import React, {Component, useState} from 'react'
 import './History.css'
 import {connect} from 'react-redux'
 import {fetchHistoryList} from '../../store/actions/History'
 import {Table} from '../../components/Table/Table'
 import InputForm from '../../components/InputForm/InputForm'
+import RenderPopUp from '../../components/PopUp/PopUp'
+import {historyDetailData} from './axiosFunction'
+import HistoryDetail from '../HistoryDetail/HistoryDetail'
 
 class History extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            modalActive: false,
+            data: []
+                }
+    }
+
+    AddTagToTable() {
+        return ({elem}) => <span onClick={() => historyDetailData(
+                modalActive => this.setState({...this.state, modalActive}),
+                data => this.setState({...this.state, data}), elem.startnumber
+            )}>Посмотреть лог</span>
+    }
+
 
     render() {
         return (
-            <div className='History'>
-
-                <InputForm 
-                    type='date'
-                    handleClickButton={textValue => this.props.fetchHistory(textValue)}
-                />
-                {this.props.loading
-                    && <Table 
-                        nameTable={['Имя ПК', 'Статус', '', 'Дата']}
-                        content={this.props.historyList}
-                        keysObj={['computer_name', 'events_id', addTag, 'date_time']} />}
+            <div>
+                <div className='History'>
+                    <InputForm 
+                        type='date'
+                        handleClickButton={textValue => this.props.fetchHistory(textValue)}
+                    />
+                    {this.props.loading
+                        && <Table 
+                            nameTable={['Имя ПК', 'Статус', '', 'Дата']}
+                            content={this.props.historyList}
+                            keysObj={['computer_name', 'events_id', this.AddTagToTable.bind(this), 'date_time']} />}
+                </div>
+                <RenderPopUp active={this.state.modalActive}
+                    arrayWithFunctions={[modalActive => this.setState({...this.state, modalActive})]}>
+                    <HistoryDetail HistoryDetail={this.state.modalActive} historyDetailList={this.state.data} />
+                </RenderPopUp>
             </div>
         )
     }
 }
 
-
-const addTag = elem => {
-    return <a href={'history/' + elem.startnumber}>Посмотреть лог</a>
-}
 
 function mapStateToProps(state) {
     return {

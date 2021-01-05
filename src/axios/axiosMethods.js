@@ -1,6 +1,6 @@
 import axios from './axios'
 import {urlToListComputers, urlToFindComputerInAd, urlToShowProgrammList,
-    urlToStartInstall, urlToGetStatusProcess, urlToStartCommandOnClient} from './variables'
+    urlToStartInstall, urlToGetStatusProcess, urlToStartCommandOnClient, urlToHistoryDetail} from './variables'
 import {adTreeAllComputers} from '../variables.global'
 
 export const axiosPost = (url, arg) => axios.post(url, arg)
@@ -30,6 +30,13 @@ export const toAddedToGroupAD = objectToInstallSoft => {
 export const toResultCelery = taskId => {
     return axiosPost(urlToGetStatusProcess, {
             idProcess: taskId
+        })
+}
+
+
+export const toHistoryDetailData = id => {
+    return axiosPost(urlToHistoryDetail, {
+            data: id
         })
 }
 

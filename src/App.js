@@ -15,7 +15,6 @@ class App extends Component {
   render() {
     const routes = (
         <Switch>
-          <Route path='/history/:id' component={HistoryDetail}/>
           <Route path='/taskmgr' exact component={TaskMgr}/>
           <Route path='/history' exact component={History}/>
           <Route path='/' exact component={InstallSoft}/>

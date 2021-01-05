@@ -6,6 +6,7 @@ import {Processes} from '../../components/processes/processes'
 import {resultCelery} from './axiosDataFromPC'
 import {followDataToClient} from '../../axios/axiosMethods'
 import {scriptAvarageAllProcessData} from './variables'
+import {LoadingProcess} from '../../components/LoadingProcess/LoadingProcess'
 
 
 class TaskMgr extends Component {
@@ -58,10 +59,8 @@ class TaskMgr extends Component {
     render() {
         return (
             <div>
-
-                { this.state.loading
-                    ? <h3>Процессы загружаются, ждите!!!!</h3>
-                    : <div className='page'>
+                <LoadingProcess loading={this.props.loading}>
+                    <div className='page'>
                         <div className='iconGroup'>
                             <div className='icon'>
                                 <h3>CPU</h3>
@@ -85,8 +84,8 @@ class TaskMgr extends Component {
                             average={this.state}
                             data={this.state.detailProcessData}
                         />
-                      </div>
-                }
+                    </div>
+                </LoadingProcess>
 
             </div>
         )

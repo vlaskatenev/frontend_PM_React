@@ -7,7 +7,6 @@ export function fetchHistoryList(textValue) {
         dispatch(fetchHistoryStart())
         try {
             console.log('textValue', textValue);
-            // const text = document.querySelector('[data-setinput="input"]').value
             const response = await axios.post('/history', {
                 data: textValue
             })
