@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react'
+import React, {Component} from 'react'
 import './History.css'
 import {connect} from 'react-redux'
 import {fetchHistoryList} from '../../store/actions/History'
@@ -8,11 +8,13 @@ import RenderPopUp from '../../components/PopUp/PopUp'
 import {historyDetailData} from './axiosFunction'
 import HistoryDetail from '../HistoryDetail/HistoryDetail'
 
+
 class History extends Component {
     constructor(props) {
         super(props)
         this.state = {
             modalActive: false,
+            historyDetailActive: false,
             data: []
                 }
     }
@@ -40,7 +42,7 @@ class History extends Component {
                             keysObj={['computer_name', 'events_id', this.AddTagToTable.bind(this), 'date_time']} />}
                 </div>
                 <RenderPopUp active={this.state.modalActive}
-                    arrayWithFunctions={[modalActive => this.setState({...this.state, modalActive})]}>
+                    arrayWithFunctions={[() => this.setState({...this.state, modalActive: false})]}>
                     <HistoryDetail HistoryDetail={this.state.modalActive} historyDetailList={this.state.data} />
                 </RenderPopUp>
             </div>

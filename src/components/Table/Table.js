@@ -2,7 +2,10 @@ import React from 'react'
 import './Table.css'
 
 
-
+/* <Table 
+    nameTable={['Имя ПК', 'Статус', '', 'Дата']}
+    content={this.props.historyList}
+    keysObj={['computer_name', 'events_id', this.AddTagToTable.bind(this), 'date_time']} /> */
 export const Table = props => {
     return (
         <div>
@@ -34,7 +37,6 @@ const ContentTable = ({content, keysObj}) => {
 const RowTable = ({keysObj, elem}) => {
     return keysObj.map((keys, i) => {
         if (typeof(keys) === 'function') {
-            console.log('typeof(keys)', typeof(keys));
              const Component = keys()
              return <td key={i}><Component elem={elem} /></td>
         } else if (typeof(keys) !== 'string') {

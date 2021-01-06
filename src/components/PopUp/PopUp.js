@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react'
 import './PopUp.css'
 
 const RenderPopUp = (props) => {
-    return (
-        <div  className={props.active ? 'modal active' : 'modal' } onClick={() => changeState(props.arrayWithFunctions)}>
+    return (props.active
+        && <div  className='modal' onClick={() => changeState(props.arrayWithFunctions)}>
             <div className='modal__content' onClick={e => e.stopPropagation()}>
                 {props.children}
             </div>

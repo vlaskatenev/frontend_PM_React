@@ -24,7 +24,7 @@ export const addedToList = (elemName, listElemName) => {
 // в массивах функций и переменных distinguishedName, computer_name
 export const changeStateForCompName = (datasetObj, stateList, funcList) => {
 	const listDataSet = Object.keys(datasetObj)
-	funcList.map((func, index) => {
+	funcList.forEach((func, index) => {
 		func(addedToList(datasetObj[listDataSet[index]], stateList[index]))
 	})
 }

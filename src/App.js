@@ -4,7 +4,6 @@ import {Redirect, Route, Switch, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import InstallSoft from './containers/InstallSoft/InstallSoft'
 import History from './containers/History/History'
-import HistoryDetail from './containers/HistoryDetail/HistoryDetail'
 import TaskMgr from './containers/TaskMgr/TaskMgr'
 
 class App extends Component {
