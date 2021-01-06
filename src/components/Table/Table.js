@@ -21,7 +21,7 @@ export const Table = props => {
 
 
 const TableName = ({nameTable}) => {
-    return nameTable.map((name, index) => <th key={index}>{name}</th>)
+    return <tr>{nameTable.map((name, index) => <th key={index}>{name}</th>)}</tr>
 }
 
 

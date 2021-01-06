@@ -29,29 +29,29 @@
     width: 100%;
     height: 200px;
 }
-table {
-    border-spacing: 0; /* Расстояние между ячейками */
-    max-width: 100%; /* Ширина элемента в пикселах */
-    padding: 10px; /* Поля вокруг текста */
+/* table {
+    border-spacing: 0; 
+    max-width: 100%; 
+    padding: 10px; 
     margin: auto;
-}
+} */
 
-tr > th {
+/* tr > th {
     left: 0;
     right: 5px;
     /*top: 34px;*/
-    border-bottom: 2px solid #9ea7a9;
+    /* border-bottom: 2px solid #9ea7a9;
     padding: 15px 10px;
     font-size: 1.5em;
-    text-align: center;
+    text-align: center; */
 
-}
+/* } */
 
-tr > td {
+/* tr > td {
     margin: 10px;
     padding: 10px;
     border-bottom: 2px solid #9ea7a9;
-}
+} */
 
 .descriptionPercent {
     border-right: none;

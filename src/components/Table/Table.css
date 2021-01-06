@@ -8,10 +8,9 @@
 .Table > tbody > tr > th {
     left: 0;
     right: 5px;
-    /*top: 34px;*/
     border-bottom: 2px solid #9ea7a9;
     padding: 15px 10px;
-    font-size: 1.5em;
+    /* font-size: 1em; */
     text-align: center;
 
 }
