@@ -5,7 +5,12 @@
 }
 
 .block__input{
+    width: calc(100% - 20px);
+}
+
+form {
     width: 100%;
+    display: flex;
 }
 
 .input {
@@ -20,7 +25,30 @@
     width: 100%;
 }
 
-.button{
-    cursor: pointer;
-    margin: 10px;
+
+.button i{
+    height: 30px;
+    line-height: 30px;
 }
+
+
+.button {
+    background-color: #ffffff;
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 2px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid white;
+    border-radius: 5px;
+  }
+
+  .button:hover {
+    border: 1px solid black;
+  }

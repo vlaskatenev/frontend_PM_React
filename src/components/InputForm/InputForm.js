@@ -1,25 +1,33 @@
 import React from 'react'
 import './InputForm.css'
-import ButtonForInput from '../ButtonInput/ButtonInput'
 
 
-const InputForm = (props) => {
+const InputForm = props => {
+	const refInputForm = React.createRef()
 
-	return (
-		<div className='inputForm'>
-			<div className='block__input'>
-			<input
-				type={props.type}
-				className='input'
-				data-setinput='input'
-                />
-			</div>
-			<ButtonForInput handleClickButton={e => props.handleClickButton(readInput(e))}/>
-		</div>
-	)
+	return (<div className='inputForm'>
+			<form onSubmit={event => {event.preventDefault()
+				return props.handleClickButton(refInputForm.current.value.trim())}}>
+				<div className='block__input'>
+					<Input {...props} ref={refInputForm} />
+				</div>
+				{button}
+			</form>
+		</div>)
 }
 
 export default InputForm
 
-const readInput = e => e.currentTarget.parentNode.querySelector('[data-setinput="input"]').value.trim()
+const Input = React.forwardRef((props, ref) => {
+	return <input
+		type={props.type}
+		className='input'
+		ref={ref}
+	/>
 
+})
+
+const button = <div><button type="submit" className='button'>
+						<i className='material-icons'>
+								flip_camera_android</i>
+					</button></div>

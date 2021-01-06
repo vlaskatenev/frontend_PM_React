@@ -22,9 +22,11 @@ class App extends Component {
     )
 
     return (
+      <React.StrictMode>
         <Layout>
           {routes}
         </Layout>
+      </React.StrictMode>  
     );
   }
 }

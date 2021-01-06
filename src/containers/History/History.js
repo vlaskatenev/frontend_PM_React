@@ -31,7 +31,7 @@ class History extends Component {
         return (
             <div>
                 <div className='History'>
-                    <InputForm 
+                    <InputForm
                         type='date'
                         handleClickButton={textValue => this.props.fetchHistory(textValue)}
                     />

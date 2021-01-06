@@ -1,6 +1,7 @@
 import axios from './axios'
 import {urlToListComputers, urlToFindComputerInAd, urlToShowProgrammList,
-    urlToStartInstall, urlToGetStatusProcess, urlToStartCommandOnClient, urlToHistoryDetail} from './variables'
+    urlToStartInstall, urlToGetStatusProcess, urlToStartCommandOnClient, urlToHistoryDetail,
+    urlToHistory} from './variables'
 import {adTreeAllComputers} from '../variables.global'
 
 export const axiosPost = (url, arg) => axios.post(url, arg)
@@ -43,4 +44,9 @@ export const toHistoryDetailData = id => {
 
 export const followDataToClient = obj => {
     return axiosPost(urlToStartCommandOnClient, obj)
+}
+
+
+export const toHistoryData = obj => {
+    return axiosPost(urlToHistory, obj)
 }

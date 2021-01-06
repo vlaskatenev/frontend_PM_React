@@ -4,8 +4,8 @@ import RenderPopUp from '../../components/PopUp/PopUp'
 
 export const PopupInstallSoft = (props) => {
 	return <RenderPopUp active={props.modalActive}
-		arrayWithFunctions={props.objForClearState}>
-			{props.content}
+			arrayWithFunctions={props.objForClearState}>
+				{props.content}
 		  </RenderPopUp>
 }
 
