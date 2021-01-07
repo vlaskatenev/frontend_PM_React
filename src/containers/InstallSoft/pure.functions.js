@@ -1,14 +1,3 @@
-import React from 'react'
-import RenderPopUp from '../../components/PopUp/PopUp'
-
-
-export const PopupInstallSoft = (props) => {
-	return <RenderPopUp active={props.modalActive}
-			arrayWithFunctions={props.objForClearState}>
-				{props.content}
-		  </RenderPopUp>
-}
-
 
 export const addedToList = (elemName, listElemName) => {
 	const newList = [...listElemName]

@@ -1,43 +1,39 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './InstallSoft.css'
 import {listNamePc, listProgramm, addedToGroupAD, findComputerInAd}  from './axiosFunctions'
-import {PopupInstallSoft, changeStateForCompName}  from './pure.functions'
+import {changeStateForCompName}  from './pure.functions'
 import InputForm from '../../components/InputForm/InputForm'
+import RenderPopUp from '../../components/PopUp/PopUp'
 
 
 const InstallSoft = () => {
 
-	const [modalActive, setModalActive] = useState(0)
+	const [modalActive, setModalActive] = useState(null)
 	const [objFromAD, setobjFromAD] = useState([])
-	const [distinguishedName, setDistinguishedName] = useState([])
-	const [allProgramName, setAllProgramName] = useState([])
-	const [program_name, setProgramName] = useState([])
-	const [program_id, setProgrammIdList] = useState([])
-	const [computer_name, setComputerNameList] = useState([])
+	const [objForMainServer, setObjForMainServer] = useState({})
 
-	// массив с функциями и аргументами для сброса useState по дефолту для всех состояний
-	const objForClearState = [
-		setModalActive.bind(this, 0),
-		setobjFromAD.bind(this, []), 
-		setDistinguishedName.bind(this, []), 
-		setAllProgramName.bind(this, []), 
-		setProgramName.bind(this, []), 
-		setProgrammIdList.bind(this, []), 
-		setComputerNameList.bind(this, [])
-  ]
 
-	const objChoiceComp = <ChoiceComp funcList={[setDistinguishedName, setComputerNameList]}
-		objFromAD={objFromAD}
-		stateList={[distinguishedName, computer_name]}
-		setModalActive={setModalActive}
-		setAllProgramName={setAllProgramName}/>
+	const objChoiceComp = <RenderPopUp active={modalActive}
+		setModalActive={setModalActive.bind(this, 0)} >
+			<ChoiceComp 
+				useObjFromAD={[objFromAD, setobjFromAD]}
+				setModalActive={setModalActive}
+				objForMainServer={setObjForMainServer}/>
+		</RenderPopUp>
 
-	const objChoiceProgramm = <ChoiceProgramm
-		funcList={[setProgrammIdList, setProgramName]}
-		objForClearState={objForClearState}
-		allProgramName={allProgramName}
-		objForMainServer={{program_name, program_id, distinguishedName, computer_name}}/>
+	const objChoiceProgramm = <RenderPopUp active={modalActive}
+		setModalActive={setModalActive.bind(this, 0)} >
+			<ChoiceProgramm
+				allProgramName={objFromAD}
+				objForMainServer={objForMainServer}/>
+		</RenderPopUp>
 
+
+	useEffect(() => {
+		if (modalActive === 0) {
+			setobjFromAD([])
+			setObjForMainServer({})	
+		}}, [modalActive])
 
 	return (
 		<div className='InstallSoft'>
@@ -45,8 +41,9 @@ const InstallSoft = () => {
 
 			<InputForm type='text'
 				handleClickButton={(valueText) => {
-					if (findComputerInAd(setDistinguishedName, setComputerNameList, setobjFromAD, valueText)) {
-						listProgramm(setModalActive, setAllProgramName) 
+					if (findComputerInAd(setobjFromAD, valueText)) {
+						setObjForMainServer(objFromAD)
+						listProgramm(setModalActive, setobjFromAD) 
 					}}} />
 			<div>
 				<button onClick={() => {listNamePc(setModalActive, setobjFromAD)}}>Выбрать ПК</button>
@@ -54,13 +51,9 @@ const InstallSoft = () => {
 			<div className='popUpWindow'>
 				<div className='popUpMainWindow'>
 					{ modalActive === 1
-						? <PopupInstallSoft modalActive={modalActive}
-							objForClearState={objForClearState}
-							content={objChoiceComp}/>	
+						? objChoiceComp
 						: modalActive === 2
-							? <PopupInstallSoft modalActive={modalActive}
-								objForClearState={objForClearState}
-								content={objChoiceProgramm}/>
+							? objChoiceProgramm
 							: null }
 				</div>
 		</div>
@@ -71,45 +64,59 @@ const InstallSoft = () => {
 export default InstallSoft
 
 
-const ChoiceComp = ({funcList, objFromAD, stateList, setModalActive, setAllProgramName}) => {
+const ChoiceComp = ({useObjFromAD, setModalActive, objForMainServer}) => {
+	const [distinguishedName, setDistinguishedName] = useState([])
+	const [computer_name, setComputerNameList] = useState([])
+
+	const [objFromAD, setobjFromAD] = useObjFromAD
+
     return (
         <div>
             <h3>Выбери ПК</h3>
 		   <div>
 				{objFromAD.computerName.map((compName, index) => <p key={index}>
-					<input onClick={e => changeStateForCompName(e.target.dataset, stateList, funcList)}
+					<input onClick={e => changeStateForCompName(e.target.dataset,
+					 [distinguishedName, computer_name],
+					 [setDistinguishedName, setComputerNameList])}
 					type='checkbox'
 					data-distinguishedname={objFromAD.DistinguishedName[index]}
 					data-compname={objFromAD.computerName[index]} 
 					/>{compName}</p>
 				)}
 			</div>
-			<button onClick={() => listProgramm(setModalActive, setAllProgramName)}>К выбору софта</button>
+			<button onClick={() => {
+				objForMainServer({distinguishedName, computer_name})
+				listProgramm(setModalActive, setobjFromAD)}}>К выбору софта</button>
         </div>
     )
 }
 
 
-const ChoiceProgramm = ({funcList, objForClearState, allProgramName, objForMainServer}) => {
+const ChoiceProgramm = ({allProgramName, objForMainServer}) => {
+	const [program_name, setProgramName] = useState([])
+	const [program_id, setProgrammIdList] = useState([])
+
   return (
     <div>
-      <h3>Выбери программу</h3>
-				<div>
-					{allProgramName.map(progObj => <p key={progObj.id}>
-						<input onClick={(e) => {
-							changeStateForCompName(e.target.dataset,
-								[objForMainServer.program_id, objForMainServer.program_name], 
-								funcList)
-						}}
-						type='checkbox' 				
-						data-progid={progObj.id}
-						data-progname={progObj.short_program_name}
-						 />{progObj.soft_display_name}</p>
-					)}  
-				</div>
-				<button onClick={() => addedToGroupAD(objForClearState, 
-						{...objForMainServer, 'methodInputnamePc': false}
-					)}>Установить</button>
-			</div>
+      	<h3>Выбери программу</h3>
+		<div>
+			{allProgramName.map(progObj => <p key={progObj.id}>
+				<input onClick={(e) => {
+					changeStateForCompName(e.target.dataset,
+						[program_id, program_name], 
+						[setProgrammIdList, setProgramName])
+				}}
+				type='checkbox' 				
+				data-progid={progObj.id}
+				data-progname={progObj.short_program_name}
+				 />{progObj.soft_display_name}</p>
+			)}  
+		</div>
+		<button onClick={() => addedToGroupAD({...objForMainServer,
+			program_id, 
+			program_name, 
+			'methodInputnamePc': false}
+			)}>Установить</button>
+	</div>
     )
 }
