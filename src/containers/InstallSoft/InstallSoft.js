@@ -13,18 +13,17 @@ const InstallSoft = () => {
 	const [objForMainServer, setObjForMainServer] = useState({})
 
 
-	const objChoiceComp = <RenderPopUp active={modalActive}
-		setModalActive={setModalActive.bind(this, 0)} >
+	const objChoiceComp = <RenderPopUp active={[modalActive, setModalActive.bind(this, 0)]} >
 			<ChoiceComp 
 				useObjFromAD={[objFromAD, setobjFromAD]}
 				setModalActive={setModalActive}
 				objForMainServer={setObjForMainServer}/>
 		</RenderPopUp>
 
-	const objChoiceProgramm = <RenderPopUp active={modalActive}
-		setModalActive={setModalActive.bind(this, 0)} >
+	const objChoiceProgramm = <RenderPopUp active={[modalActive, setModalActive.bind(this, 0)]} >
 			<ChoiceProgramm
 				allProgramName={objFromAD}
+				setModalActive={setModalActive}
 				objForMainServer={objForMainServer}/>
 		</RenderPopUp>
 
@@ -41,9 +40,8 @@ const InstallSoft = () => {
 
 			<InputForm type='text'
 				handleClickButton={(valueText) => {
-					if (findComputerInAd(setobjFromAD, valueText)) {
-						setObjForMainServer(objFromAD)
-						listProgramm(setModalActive, setobjFromAD) 
+					if (findComputerInAd(setObjForMainServer, valueText)) {
+						listProgramm(setModalActive, setobjFromAD)
 					}}} />
 			<div>
 				<button onClick={() => {listNamePc(setModalActive, setobjFromAD)}}>Выбрать ПК</button>
@@ -67,9 +65,12 @@ export default InstallSoft
 const ChoiceComp = ({useObjFromAD, setModalActive, objForMainServer}) => {
 	const [distinguishedName, setDistinguishedName] = useState([])
 	const [computer_name, setComputerNameList] = useState([])
-
-	const [objFromAD, setobjFromAD] = useObjFromAD
-
+	// выполняется перерендер компонента когда в объекте уже данные для другого компонента
+	// чтобы обновления не было установил это состояние
+	const [objFromAD2, _] = useState(useObjFromAD)
+	
+	const [objFromAD, setobjFromAD] = objFromAD2
+	
     return (
         <div>
             <h3>Выбери ПК</h3>
@@ -92,7 +93,7 @@ const ChoiceComp = ({useObjFromAD, setModalActive, objForMainServer}) => {
 }
 
 
-const ChoiceProgramm = ({allProgramName, objForMainServer}) => {
+const ChoiceProgramm = ({allProgramName, setModalActive, objForMainServer}) => {
 	const [program_name, setProgramName] = useState([])
 	const [program_id, setProgrammIdList] = useState([])
 
@@ -112,7 +113,8 @@ const ChoiceProgramm = ({allProgramName, objForMainServer}) => {
 				 />{progObj.soft_display_name}</p>
 			)}  
 		</div>
-		<button onClick={() => addedToGroupAD({...objForMainServer,
+		<button onClick={() => addedToGroupAD(setModalActive,
+		{...objForMainServer,
 			program_id, 
 			program_name, 
 			'methodInputnamePc': false}

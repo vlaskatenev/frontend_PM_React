@@ -41,8 +41,7 @@ class History extends Component {
                             content={this.props.historyList}
                             keysObj={['computer_name', 'events_id', this.AddTagToTable.bind(this), 'date_time']} />}
                 </div>
-                <RenderPopUp active={this.state.modalActive}
-                    setModalActive={() => this.setState({...this.state, modalActive: false})}>
+                <RenderPopUp active={[this.state.modalActive, () => this.setState({...this.state, modalActive: false})]}>
                     <HistoryDetail HistoryDetail={this.state.modalActive} historyDetailList={this.state.data} />
                 </RenderPopUp>
             </div>

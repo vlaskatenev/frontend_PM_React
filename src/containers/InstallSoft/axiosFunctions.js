@@ -7,10 +7,11 @@ export const listNamePc = async (setModalActive, setobjFromAD) => {
 }
 
 
-export const findComputerInAd = async (setobjFromAD, computerName) => {  
+export const findComputerInAd = async (setObjForMainServer, computerName) => {  
     const data = await toFindComputerInAd(computerName)
     const objFromAd = data.data.data
-    setobjFromAD(objFromAd)
+    // setobjFromAD(objFromAd)
+    setObjForMainServer(objFromAd)
     return objFromAd.adMember
 }
 
@@ -22,7 +23,8 @@ export const listProgramm = async (setModalActive, setobjFromAD) => {
 }
 
 
-export const addedToGroupAD = async (objectToInstallSoft) => {  
-	const data = await toAddedToGroupAD(objectToInstallSoft)
+export const addedToGroupAD = async (setModalActive, objectToInstallSoft) => {  
+    const data = await toAddedToGroupAD(objectToInstallSoft)
+    setModalActive(0)
 }
 
