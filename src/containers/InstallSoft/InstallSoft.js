@@ -14,7 +14,7 @@ const InstallSoft = () => {
 
 
 	const objChoiceComp = <RenderPopUp active={[modalActive, setModalActive.bind(this, 0)]} >
-			<ChoiceComp 
+			<ChoiceComp
 				useObjFromAD={[objFromAD, setobjFromAD]}
 				setModalActive={setModalActive}
 				objForMainServer={setObjForMainServer}/>
@@ -44,7 +44,7 @@ const InstallSoft = () => {
 						listProgramm(setModalActive, setobjFromAD)
 					}}} />
 			<div>
-				<button onClick={() => {listNamePc(setModalActive, setobjFromAD)}}>Выбрать ПК</button>
+				<button onClick={() => listNamePc(setModalActive, setobjFromAD)}>Выбрать ПК</button>
 			</div>
 			<div className='popUpWindow'>
 				<div className='popUpMainWindow'>
@@ -66,7 +66,7 @@ const ChoiceComp = ({useObjFromAD, setModalActive, objForMainServer}) => {
 	const [distinguishedName, setDistinguishedName] = useState([])
 	const [computer_name, setComputerNameList] = useState([])
 	// выполняется перерендер компонента когда в объекте уже данные для другого компонента
-	// чтобы обновления не было установил это состояние
+	// чтобы обновления не было установил это состояние. 
 	const [objFromAD2, _] = useState(useObjFromAD)
 	
 	const [objFromAD, setobjFromAD] = objFromAD2
@@ -107,7 +107,7 @@ const ChoiceProgramm = ({allProgramName, setModalActive, objForMainServer}) => {
 						[program_id, program_name], 
 						[setProgrammIdList, setProgramName])
 				}}
-				type='checkbox' 				
+				type='checkbox'
 				data-progid={progObj.id}
 				data-progname={progObj.short_program_name}
 				 />{progObj.soft_display_name}</p>

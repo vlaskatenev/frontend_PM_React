@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import InstallSoft from './containers/InstallSoft/InstallSoft'
 import History from './containers/History/History'
 import TaskMgr from './containers/TaskMgr/TaskMgr'
+import RenderPopUpContex from './components/PopUp/PopUpContex'
 
 class App extends Component {
 
@@ -23,9 +24,11 @@ class App extends Component {
 
     return (
       <React.StrictMode>
-        <Layout>
-          {routes}
-        </Layout>
+        <RenderPopUpContex>
+          <Layout>
+            {routes}
+          </Layout>
+        </RenderPopUpContex>
       </React.StrictMode>  
     );
   }

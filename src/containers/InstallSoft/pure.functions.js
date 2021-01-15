@@ -1,7 +1,7 @@
 
 export const addedToList = (elemName, listElemName) => {
 	const newList = [...listElemName]
-	newList.indexOf( elemName ) === -1 
+	newList.includes( elemName )
 			? newList.push(elemName) 
 			: newList.splice(newList.indexOf(elemName), 1)
 	return newList

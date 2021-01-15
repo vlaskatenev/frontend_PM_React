@@ -1,7 +1,7 @@
 .Table {
-    border-spacing: 0; /* Расстояние между ячейками */
-    max-width: 100%; /* Ширина элемента в пикселах */
-    padding: 10px; /* Поля вокруг текста */
+    border-spacing: 0;
+    max-width: 100%;
+    padding: 10px;
     margin: auto;
 }
 
@@ -10,7 +10,6 @@
     right: 5px;
     border-bottom: 2px solid #9ea7a9;
     padding: 15px 10px;
-    /* font-size: 1em; */
     text-align: center;
 
 }

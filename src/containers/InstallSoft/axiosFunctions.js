@@ -10,7 +10,6 @@ export const listNamePc = async (setModalActive, setobjFromAD) => {
 export const findComputerInAd = async (setObjForMainServer, computerName) => {  
     const data = await toFindComputerInAd(computerName)
     const objFromAd = data.data.data
-    // setobjFromAD(objFromAd)
     setObjForMainServer(objFromAd)
     return objFromAd.adMember
 }

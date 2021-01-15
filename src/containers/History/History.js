@@ -1,66 +1,52 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import './History.css'
-import {connect} from 'react-redux'
-import {fetchHistoryList} from '../../store/actions/History'
 import {Table} from '../../components/Table/Table'
 import InputForm from '../../components/InputForm/InputForm'
 import RenderPopUp from '../../components/PopUp/PopUp'
-import {historyDetailData} from './axiosFunction'
+import {historyDetailData, historyData} from './axiosFunction'
 import HistoryDetail from '../HistoryDetail/HistoryDetail'
 
-
-class History extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            modalActive: false,
-            historyDetailActive: false,
-            data: []
-                }
-    }
-
-    AddTagToTable() {
-        return ({elem}) => <span onClick={() => historyDetailData(
-                modalActive => this.setState({...this.state, modalActive}),
-                data => this.setState({...this.state, data}), elem.startnumber
-            )}>Посмотреть лог</span>
-    }
+import { usePopUp } from '../../components/PopUp/PopUpContex'
 
 
-    render() {
-        return (
+const addTagToTable = (toogle, setDetailData) => {
+    return ({elem}) => <span onClick={() => historyDetailData(
+        toogle,
+        setDetailData,
+        elem.startnumber
+    )}
+    >Посмотреть лог</span>
+}
+
+
+
+const History = () =>  {
+    const [loading, setLoading] = useState(false)
+	const [data, setData] = useState([])
+	const [detailData, setDetailData] = useState([])
+
+    const { toogle }  = usePopUp()
+
+    return (
             <div>
                 <div className='History'>
                     <InputForm
                         type='date'
-                        handleClickButton={textValue => this.props.fetchHistory(textValue)}
+                        handleClickButton={textValue => historyData(setLoading, setData, textValue)}
                     />
-                    {this.props.loading
-                        && <Table 
-                            nameTable={['Имя ПК', 'Статус', '', 'Дата']}
-                            content={this.props.historyList}
-                            keysObj={['computer_name', 'events_id', this.AddTagToTable.bind(this), 'date_time']} />}
+                    {loading
+                        && <Table
+                        nameTable={['Имя ПК', 'Статус', '', 'Дата']}
+                        content={data}
+                        keysObj={['computer_name', 'events_id', addTagToTable.bind(this, toogle, setDetailData), 'date_time']} />}
                 </div>
-                <RenderPopUp active={[this.state.modalActive, () => this.setState({...this.state, modalActive: false})]}>
-                    <HistoryDetail HistoryDetail={this.state.modalActive} historyDetailList={this.state.data} />
+                <RenderPopUp>
+                    <HistoryDetail historyDetailList={detailData} />
                 </RenderPopUp>
             </div>
-        )
-    }
+    )
 }
 
 
-function mapStateToProps(state) {
-    return {
-        loading: state.history.loading,
-        historyList: state.history.historyList
-    }
-}
 
-function mapDispatchToProps(dispatch) {
-    return {
-        fetchHistory: textValue => dispatch(fetchHistoryList(textValue))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(History)
+export default History

@@ -1,18 +1,25 @@
-import React from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import './PopUp.css'
+import { usePopUp } from './PopUpContex'
 
-const RenderPopUp = props => {
 
-    return (props.active[0]
-        && <div  className='modal' onClick={() => props.active[1]()}>
-            <div className='modal__content' onClick={e => e.stopPropagation()}>
-                {props.children}
+const RenderPopUp = (props) => {
+    const { visible, toogle } = usePopUp()
+
+    if (!visible) return null
+
+
+    return  <div  className='modal' onClick={() => toogle(false)}>
+                <div className='modal__content' onClick={e => e.stopPropagation()}>
+                    { props.children }
+                </div>
             </div>
-        </div>
-    )
 }
 
 
 export default RenderPopUp
+
+
+
 
 
