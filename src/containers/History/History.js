@@ -3,27 +3,15 @@ import './History.css'
 import {Table} from '../../components/Table/Table'
 import InputForm from '../../components/InputForm/InputForm'
 import RenderPopUp from '../../components/PopUp/PopUp'
-import {historyDetailData, historyData} from './axiosFunction'
+import {historyData} from './axiosFunction'
 import HistoryDetail from '../HistoryDetail/HistoryDetail'
-
 import { usePopUp } from '../../components/PopUp/PopUpContex'
-
-
-const addTagToTable = (toogle, setDetailData) => {
-    return ({elem}) => <span onClick={() => historyDetailData(
-        toogle,
-        setDetailData,
-        elem.startnumber
-    )}
-    >Посмотреть лог</span>
-}
-
+import { LoadingProcess } from '../../components/LoadingProcess/LoadingProcess'
 
 
 const History = () =>  {
-    const [loading, setLoading] = useState(false)
-	const [data, setData] = useState([])
-	const [detailData, setDetailData] = useState([])
+	const [data, setData] = useState(false)
+	const [id, setId] = useState(false)
 
     const { toogle }  = usePopUp()
 
@@ -32,21 +20,30 @@ const History = () =>  {
                 <div className='History'>
                     <InputForm
                         type='date'
-                        handleClickButton={textValue => historyData(setLoading, setData, textValue)}
+                        handleClickButton={textValue => historyData(setData, textValue)}
                     />
-                    {loading
-                        && <Table
-                        nameTable={['Имя ПК', 'Статус', '', 'Дата']}
-                        content={data}
-                        keysObj={['computer_name', 'events_id', addTagToTable.bind(this, toogle, setDetailData), 'date_time']} />}
+                    <LoadingProcess loading={data}>
+                        <Table
+                            nameTable={['Имя ПК', 'Статус', '', 'Дата']}
+                            content={data}
+                            keysObj={['computer_name', 'events_id', addTagToTable.bind(this, toogle, setId), 'date_time']} />
+                    </LoadingProcess>
                 </div>
                 <RenderPopUp>
-                    <HistoryDetail historyDetailList={detailData} />
+                    <HistoryDetail id={id} />
                 </RenderPopUp>
             </div>
     )
 }
 
-
-
 export default History
+
+
+const addTagToTable = (toogle, setId) => {
+    return ({elem}) => <span onClick={() => {
+        setId(elem.startnumber)
+        toogle(true)
+    }}
+    >Посмотреть лог</span>
+}
+

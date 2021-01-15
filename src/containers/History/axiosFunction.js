@@ -1,17 +1,16 @@
 import { toHistoryDetailData, toHistoryData } from '../../axios/axiosMethods'
 
-export const historyDetailData = async (setModalActive, setData, id) => {  
+export const historyDetailData = async (toogle, setData, id) => {  
     console.log('setData', setData);
     console.log('id', id);
     const data = await toHistoryDetailData(id)
     setData(data.data.data)
-    setModalActive(true)
+    toogle(true)
 }
 
-export const historyData = async (setLoading, setData, data) => {  
-    const rewsponse = await toHistoryData({
+export const historyData = async (setData, data) => {  
+    const response = await toHistoryData({
         data
     })
-    setData(rewsponse.data.data)
-    setLoading(true)
+    setData(response.data.data)
 }
