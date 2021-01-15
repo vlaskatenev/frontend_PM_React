@@ -1,5 +1,5 @@
 
-export const addedToList = (elemName, listElemName) => {
+const addedToList = (elemName, listElemName) => {
 	const newList = [...listElemName]
 	newList.indexOf( elemName ) === -1
 			? newList.push(elemName) 

@@ -1,17 +1,10 @@
-import {toListNamePc, toFindComputerInAd, toListProgramm, toAddedToGroupAD} from '../../axios/axiosMethods'
-
-export const listNamePc = async (setModalActive, setobjFromAD, toogle) => {  
-    const data = await toListNamePc()
-    console.log('data list name pc:', data.data.data);
-    setobjFromAD(data.data.data)
-    setModalActive(1)
-    toogle(true)
-}
+import {toFindComputerInAd, toListProgramm, toAddedToGroupAD} from '../../axios/axiosMethods'
 
 
 export const findComputerInAd = async (setObjForMainServer, computerName) => {  
     const data = await toFindComputerInAd(computerName)
     const objFromAd = data.data.data
+    console.log('objFromAd', objFromAd);
     setObjForMainServer(objFromAd)
     return objFromAd.adMember
 }
