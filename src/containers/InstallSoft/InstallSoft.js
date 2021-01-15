@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import './InstallSoft.css'
 import {listNamePc, listProgramm, addedToGroupAD, findComputerInAd}  from './axiosFunctions'
 import {changeStateForCompName}  from './pure.functions'
 import InputForm from '../../components/InputForm/InputForm'
 import RenderPopUp from '../../components/PopUp/PopUp'
+import { usePopUp } from '../../components/PopUp/PopUpContex'
 
 
 const InstallSoft = () => {
@@ -12,21 +13,7 @@ const InstallSoft = () => {
 	const [objFromAD, setobjFromAD] = useState([])
 	const [objForMainServer, setObjForMainServer] = useState({})
 
-
-	const objChoiceComp = <RenderPopUp active={[modalActive, setModalActive.bind(this, 0)]} >
-			<ChoiceComp
-				useObjFromAD={[objFromAD, setobjFromAD]}
-				setModalActive={setModalActive}
-				objForMainServer={setObjForMainServer}/>
-		</RenderPopUp>
-
-	const objChoiceProgramm = <RenderPopUp active={[modalActive, setModalActive.bind(this, 0)]} >
-			<ChoiceProgramm
-				allProgramName={objFromAD}
-				setModalActive={setModalActive}
-				objForMainServer={objForMainServer}/>
-		</RenderPopUp>
-
+	const { toogle }  = usePopUp()
 
 	useEffect(() => {
 		if (modalActive === 0) {
@@ -44,25 +31,30 @@ const InstallSoft = () => {
 						listProgramm(setModalActive, setobjFromAD)
 					}}} />
 			<div>
-				<button onClick={() => listNamePc(setModalActive, setobjFromAD)}>Выбрать ПК</button>
+				<button onClick={() => listNamePc(setModalActive, setobjFromAD, toogle)}>Выбрать ПК</button>
 			</div>
-			<div className='popUpWindow'>
-				<div className='popUpMainWindow'>
-					{ modalActive === 1
-						? objChoiceComp
-						: modalActive === 2
-							? objChoiceProgramm
-							: null }
-				</div>
-		</div>
-		</div>
+			<RenderPopUp>
+				<ChoiceComp
+					modalActive={modalActive}
+					useObjFromAD={[objFromAD, setobjFromAD]}
+					setModalActive={setModalActive}
+					objForMainServer={setObjForMainServer}/>
+				<ChoiceProgramm
+					modalActive={modalActive}
+					allProgramName={objFromAD}
+					setModalActive={setModalActive}
+					objForMainServer={objForMainServer}
+					toogle={toogle}/>
+			</RenderPopUp>
+			</div>
 	)
 }
 
 export default InstallSoft
 
 
-const ChoiceComp = ({useObjFromAD, setModalActive, objForMainServer}) => {
+const ChoiceComp = ({modalActive, useObjFromAD, setModalActive, objForMainServer}) => {
+
 	const [distinguishedName, setDistinguishedName] = useState([])
 	const [computer_name, setComputerNameList] = useState([])
 	// выполняется перерендер компонента когда в объекте уже данные для другого компонента
@@ -71,6 +63,8 @@ const ChoiceComp = ({useObjFromAD, setModalActive, objForMainServer}) => {
 	
 	const [objFromAD, setobjFromAD] = objFromAD2
 	
+	if (modalActive !== 1) return null
+
     return (
         <div>
             <h3>Выбери ПК</h3>
@@ -93,9 +87,11 @@ const ChoiceComp = ({useObjFromAD, setModalActive, objForMainServer}) => {
 }
 
 
-const ChoiceProgramm = ({allProgramName, setModalActive, objForMainServer}) => {
+const ChoiceProgramm = ({modalActive, allProgramName, setModalActive, objForMainServer, toogle}) => {
 	const [program_name, setProgramName] = useState([])
 	const [program_id, setProgrammIdList] = useState([])
+	
+	if (modalActive !== 2) return null
 
   return (
     <div>
@@ -113,7 +109,7 @@ const ChoiceProgramm = ({allProgramName, setModalActive, objForMainServer}) => {
 				 />{progObj.soft_display_name}</p>
 			)}  
 		</div>
-		<button onClick={() => addedToGroupAD(setModalActive,
+		<button onClick={() => addedToGroupAD(setModalActive, toogle,
 		{...objForMainServer,
 			program_id, 
 			program_name, 

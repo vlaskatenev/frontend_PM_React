@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, { useContext, useState } from 'react'
 
 const PopUpContext = React.createContext()
 
@@ -7,12 +7,9 @@ export const usePopUp = () => {
 }
 
 
-
 const RenderPopUpContex = ({ children }) => {
   const [modalActive, setModalActive] = useState(false)
-  const toogle = (modalActive) => {
-    console.log('RenderPopUp toogle работает')
-    setModalActive(modalActive)}
+  const toogle = (modalActive) => setModalActive(modalActive)
 
 
     return <PopUpContext.Provider value={{

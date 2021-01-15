@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React from 'react'
 import './PopUp.css'
 import { usePopUp } from './PopUpContex'
 
