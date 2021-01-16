@@ -1,18 +1,13 @@
-import React, {Component} from 'react'
+import React from 'react'
 import Layout from './hoc/Layout/Layout'
-import {Redirect, Route, Switch, withRouter} from 'react-router-dom'
-import {connect} from 'react-redux'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import InstallSoft from './containers/InstallSoft/InstallSoft'
 import History from './containers/History/History'
 import TaskMgr from './containers/TaskMgr/TaskMgr'
 import RenderPopUpContex from './components/PopUp/PopUpContex'
 
-class App extends Component {
+function App() {
 
-  componentDidMount() {
-  }
-
-  render() {
     const routes = (
         <Switch>
           <Route path='/taskmgr' exact component={TaskMgr}/>
@@ -30,20 +25,8 @@ class App extends Component {
           </Layout>
         </RenderPopUpContex>
       </React.StrictMode>  
-    );
-  }
+    )
 }
 
-function mapStateToProps(state) {
-  return {
 
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-
-  }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default App

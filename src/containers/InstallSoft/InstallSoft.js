@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './InstallSoft.css'
-import { listProgramm, findComputerInAd }  from './axiosFunctions'
+import { findComputerInAd }  from './axiosFunctions'
 import InputForm from '../../components/InputForm/InputForm'
 import RenderPopUp from '../../components/PopUp/PopUp'
 import { usePopUp } from '../../components/PopUp/PopUpContex'
@@ -11,7 +11,6 @@ import { ChoiceProgramm } from './ChoiceProgramm/ChoiceProgramm'
 const InstallSoft = () => {
 
 	const [modalActive, setModalActive] = useState(0)
-	const [objFromAD, setobjFromAD] = useState([])
 	const [choiceData, setChoiceData] = useState({})
 
 	const { toogle }  = usePopUp()
